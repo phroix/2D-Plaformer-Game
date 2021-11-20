@@ -257,7 +257,7 @@ GameObject:
   - component: {fileID: 5782503320185687020}
   - component: {fileID: 5782503320185687023}
   m_Layer: 8
-  m_Name: Shed_inside
+  m_Name: Shed inside
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
