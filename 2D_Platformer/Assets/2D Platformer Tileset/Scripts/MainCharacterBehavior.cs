@@ -18,9 +18,13 @@ public class MainCharacterBehavior : MonoBehaviour
     bool dash;
     float dashCooldown = 2;
     float nextDash = 0;
+    public float fallingThreshold = -0.1f;
+    public float jumpingThreshold = .1f;
+
     // Start is called before the first frame update
     void Start()
     {
+        //Time.timeScale = .5f;
         myRigidbody = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
         myFeetCollider = GetComponent<BoxCollider2D>();
@@ -29,13 +33,14 @@ public class MainCharacterBehavior : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {   
+    {
         if(!dash)Move();
         FlipSprite();
         Jump();
         Dash();
     }
 
+    //Movement
     private void Move()//move player
     {
         float control = Input.GetAxis("Horizontal");//get input manager axis
@@ -58,6 +63,18 @@ public class MainCharacterBehavior : MonoBehaviour
             transform.localScale = new Vector2(Mathf.Sign(myRigidbody.velocity.x), 1);//Mathf.Sign return value is 1 when f is positive or zero, -1 when f is negative
         }
     }
+    //Jump & Fall
+    private bool CheckIfJumping()//Checks if player is jumping, positiv on y-axis
+    {
+        if (myRigidbody.velocity.y > jumpingThreshold)//fi player falling return true
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     private void Jump()//jumping
     {
@@ -65,18 +82,38 @@ public class MainCharacterBehavior : MonoBehaviour
         {
             if(Input.GetButtonDown("Jump"))//Get Jump Button
             {
-                myAnimator.SetTrigger("TakeOf");//set Trigger of Animator
+                //myAnimator.SetTrigger("TakeOf");//set Trigger of Animator
                 //Vector2 jumpVelocity = new Vector2(0f,jumpSpeed);//new Vector2(0, jumspeed)
-                //myRigidbody.velocity += jumpVelocity;//current velocity get added jumpVelocity
-                myRigidbody.AddForce(Vector2.up*jumpSpeed, ForceMode2D.Impulse);
+                //myRigidbody.velocity += jumpVelocity;//current velocity get added jumpVelocity   
+                myAnimator.SetBool("IsJumping", true);//set Bool of Animator
+                myRigidbody.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);   
             }
-            myAnimator.SetBool("IsJumping", false);//set Bool of Animator
-        }else
+        }
+        if(!CheckIfJumping())
         {
-           myAnimator.SetBool("IsJumping", true);//set Bool of Animator
+            Falling();
+            myAnimator.SetBool("IsJumping", false);//set Bool of Animator
         }
     }
 
+    private bool CheckIfFalling()//Checks if player is falling, negativ on y-axis
+    {
+        if(myRigidbody.velocity.y < fallingThreshold)//fi player falling return true
+        {
+            return true;
+        }else
+        {
+            return false;
+
+        }
+    }
+    private void Falling()
+    {
+        if (CheckIfFalling()) Debug.Log("Falling");
+        myAnimator.SetBool("IsFalling", CheckIfFalling());
+    }
+
+    //Dash
     private void Dash()//dashing
     {
         float xspeed = myRigidbody.transform.localScale.x;//which direction player facing
