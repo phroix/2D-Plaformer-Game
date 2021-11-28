@@ -7596,7 +7596,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3990387932540445225, guid: 97de386152a05ab49b907f3e9d443e36, type: 3}
       propertyPath: jumpSpeed
-      value: 50
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3990387932540445225, guid: 97de386152a05ab49b907f3e9d443e36, type: 3}
+      propertyPath: fallingThreshold
+      value: -0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3990387932540445225, guid: 97de386152a05ab49b907f3e9d443e36, type: 3}
+      propertyPath: jumpingThreshold
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 3990387932540445226, guid: 97de386152a05ab49b907f3e9d443e36, type: 3}
       propertyPath: m_RootOrder
