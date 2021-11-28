@@ -10,16 +10,24 @@ public class MainCharacterBehavior : MonoBehaviour
     public float jumpSpeed = 10f;
     public float dashSpeed = 50f;
 
+    public float dashDistance = 100f;
+    public float waitForDash = .4f;
+
     Rigidbody2D myRigidbody;
     BoxCollider2D myFeetCollider;
     CapsuleCollider2D myBodyCollider;
     Animator myAnimator;
 
+    //cached
     bool dash;
     float dashCooldown = 2;
     float nextDash = 0;
-    public float fallingThreshold = -0.1f;
-    public float jumpingThreshold = .1f;
+    float fallingThreshold = -.1f;
+    float jumpingThreshold = .1f;
+
+    bool isDashing;
+    float doubleTapTime;
+    KeyCode lastKeyCode;
 
     // Start is called before the first frame update
     void Start()
@@ -104,47 +112,82 @@ public class MainCharacterBehavior : MonoBehaviour
         }else
         {
             return false;
-
         }
     }
     private void Falling()
     {
-        if (CheckIfFalling()) Debug.Log("Falling");
         myAnimator.SetBool("IsFalling", CheckIfFalling());
     }
 
     //Dash
     private void Dash()//dashing
     {
-        float xspeed = myRigidbody.transform.localScale.x;//which direction player facing
-        int facingSide = -1;
+        //float xspeed = myRigidbody.transform.localScale.x;//which direction player facing
+        //int facingSide = -1;
 
-        if(xspeed == 1)//if facing right
-        {
-            facingSide = 1;
-        }
+        //if(xspeed == 1)//if facing right
+        //{
+        //    facingSide = 1;
+        //}
 
-        if(myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Foreground")))//if player is touching Foreground Layer
+        //if(myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Foreground")))//if player is touching Foreground Layer
+        //{
+
+        //    if(Input.GetButtonDown("Dash") && !dash)//Get Dash Button
+        //    {
+        //        StartCoroutine(DashCooldown(facingSide));
+        //    }
+
+        //}
+        //dashing left
+        if (Input.GetKeyDown(KeyCode.A))
         {
-            
-            if(Input.GetButtonDown("Dash") && !dash)//Get Dash Button
+            if (doubleTapTime > Time.time && lastKeyCode == KeyCode.A)
             {
-                StartCoroutine(DashCooldown(facingSide));
+                StartCoroutine(DashCooldown(-1f));
             }
-            
+            else
+            {
+                doubleTapTime = Time.time + 0.3f;
+            }
+            lastKeyCode = KeyCode.A;
+
+        }
+        //dashing right
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            if (doubleTapTime > Time.time && lastKeyCode == KeyCode.D)
+            {
+                StartCoroutine(DashCooldown(1f));
+            }
+            else
+            {
+                doubleTapTime = Time.time + 0.3f;
+            }
+            lastKeyCode = KeyCode.D;
         }
     }
 
-    private IEnumerator DashCooldown(int facingSide)
+    private IEnumerator DashCooldown(float facingSide)
     {
-        dash = true;
-        myRigidbody.velocity = new Vector2(myRigidbody.velocity.x,0f); 
-        myRigidbody.AddForce(new Vector2(dashSpeed*facingSide,0f),ForceMode2D.Impulse);//adds Force to Rigidbody of type Vector2
-        myAnimator.SetBool("IsDashing",dash);
-        //myAnimator.SetTrigger("Dash");
-        //nextDash = Time.time + dashCooldown;
-        yield return new WaitForSeconds(1);
-        dash = false;
-        myAnimator.SetBool("IsDashing",dash);
+        //dash = true;
+        //myRigidbody.velocity = new Vector2(myRigidbody.velocity.x,0f); 
+        //myRigidbody.AddForce(new Vector2(dashSpeed*facingSide,0f),ForceMode2D.Impulse);//adds Force to Rigidbody of type Vector2
+        //myAnimator.SetBool("IsDashing",dash);
+        ////myAnimator.SetTrigger("Dash");
+        ////nextDash = Time.time + dashCooldown;
+        //yield return new WaitForSeconds(1);
+        //dash = false;
+        //myAnimator.SetBool("IsDashing",dash);
+        isDashing = true;
+        myRigidbody.velocity = new Vector2(myRigidbody.velocity.x, 0f);
+        myRigidbody.AddForce(new Vector2(dashDistance * facingSide, 0f), ForceMode2D.Impulse);
+        // float gravity = myRigidbody.gravityScale;
+        //myRigidbody.gravityScale = 0;
+        myAnimator.SetBool("DashRoll", isDashing);
+        yield return new WaitForSeconds(waitForDash);
+        isDashing = false;
+        //myRigidbody.gravityScale = gravity;
+        myAnimator.SetBool("DashRoll", isDashing);
     }
 }
