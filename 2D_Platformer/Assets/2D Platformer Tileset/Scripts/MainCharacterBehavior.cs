@@ -20,7 +20,7 @@ public class MainCharacterBehavior : MonoBehaviour
     Animator myAnimator;
 
     //Not player
-    Platform platform;
+    Platform [] platforms;
     Collider2D platformCollider;
     bool isIgnoring = false;
      
@@ -47,8 +47,8 @@ public class MainCharacterBehavior : MonoBehaviour
         myAnimator = GetComponent<Animator>();
         myFeetCollider = GetComponent<BoxCollider2D>();
         myBodyCollider = GetComponent<CapsuleCollider2D>();
-        platform = FindObjectOfType<Platform>();
-        platformCollider = platform.GetComponent<PolygonCollider2D>();
+        platforms = FindObjectsOfType<Platform>();
+        
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -58,7 +58,6 @@ public class MainCharacterBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (platformCollider.IsTouchingLayers(LayerMask.GetMask("MainCharacter"))) Debug.Log("Platform Collider");
         if (!dash)Move();
         FlipSprite();
         Jump();
@@ -67,15 +66,23 @@ public class MainCharacterBehavior : MonoBehaviour
         if (feetIsTouchingPlatform || bodyIsTouchingPlatform)
         {
             isIgnoring = true;
-            Debug.Log("Test");
-            if (Input.GetKeyDown(KeyCode.S))
+            Debug.Log("Is Touching platform");
+            //platform = FindObjectOfType<Platform>();
+            for(int i = 0;i < platforms.Length; i++)
             {
+                Debug.Log(platforms[i].name);
+                platformCollider = platforms[i].GetComponent<PolygonCollider2D>();
+                if (platformCollider.IsTouchingLayers(LayerMask.GetMask("MainCharacter"))) Debug.Log("Platform Collider");
+                    if (Input.GetKeyDown(KeyCode.S))
+                    {
                 
-                Debug.Log("Ignore");
-                Physics2D.IgnoreCollision(myFeetCollider, platformCollider, isIgnoring);
-                Physics2D.IgnoreCollision(myBodyCollider, platformCollider, isIgnoring);
+                        Debug.Log("Ignore platform"); 
+                        Physics2D.IgnoreCollision(myFeetCollider, platformCollider, isIgnoring);
+                        Physics2D.IgnoreCollision(myBodyCollider, platformCollider, isIgnoring);
+                    }
+                }
+
             }
-        }
         if ((feetIsTouchingForeground||feetIsTouchingPlatform) && isIgnoring)
         {
             StartCoroutine(WaitForDrop());
@@ -86,10 +93,14 @@ public class MainCharacterBehavior : MonoBehaviour
     
     private IEnumerator WaitForDrop()
     {
-        yield return new WaitForSecondsRealtime(1f);
+        yield return new WaitForSecondsRealtime(.75f);
         isIgnoring = false;
-        Physics2D.IgnoreCollision(myFeetCollider, platformCollider, isIgnoring);
-        Physics2D.IgnoreCollision(myBodyCollider, platformCollider, isIgnoring);
+        for (int i = 0; i < platforms.Length; i++)
+        {
+            platformCollider = platforms[i].GetComponent<PolygonCollider2D>();
+            Physics2D.IgnoreCollision(myFeetCollider, platformCollider, isIgnoring);
+            Physics2D.IgnoreCollision(myBodyCollider, platformCollider, isIgnoring);
+        }
     }
 
     //Movement
