@@ -13,11 +13,17 @@ public class MainCharacterBehavior : MonoBehaviour
     public float dashDistance = 100f;
     public float waitForDash = .4f;
 
+    //Player
     Rigidbody2D myRigidbody;
-    BoxCollider2D myFeetCollider;
+    Collider2D myFeetCollider;
     CapsuleCollider2D myBodyCollider;
     Animator myAnimator;
 
+    //Not player
+    Platform platform;
+    Collider2D platformCollider;
+    bool isIgnoring = false;
+     
     //cached
     bool dash;
     float dashCooldown = 2;
@@ -26,6 +32,10 @@ public class MainCharacterBehavior : MonoBehaviour
     float jumpingThreshold = .1f;
 
     bool isDashing;
+    bool feetIsTouchingForeground;
+    bool bodyIsTouchingForeground;
+    bool feetIsTouchingPlatform;
+    bool bodyIsTouchingPlatform;
     float doubleTapTime;
     KeyCode lastKeyCode;
 
@@ -37,15 +47,49 @@ public class MainCharacterBehavior : MonoBehaviour
         myAnimator = GetComponent<Animator>();
         myFeetCollider = GetComponent<BoxCollider2D>();
         myBodyCollider = GetComponent<CapsuleCollider2D>();
+        platform = FindObjectOfType<Platform>();
+        platformCollider = platform.GetComponent<PolygonCollider2D>();
     }
 
+    void OnCollisionEnter2D(Collision2D col)
+    {
+
+    }
     // Update is called once per frame
     void Update()
     {
-        if(!dash)Move();
+        if (platformCollider.IsTouchingLayers(LayerMask.GetMask("MainCharacter"))) Debug.Log("Platform Collider");
+        if (!dash)Move();
         FlipSprite();
         Jump();
         Dash();
+        IsTouching();
+        if (feetIsTouchingPlatform || bodyIsTouchingPlatform)
+        {
+            isIgnoring = true;
+            Debug.Log("Test");
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                
+                Debug.Log("Ignore");
+                Physics2D.IgnoreCollision(myFeetCollider, platformCollider, isIgnoring);
+                Physics2D.IgnoreCollision(myBodyCollider, platformCollider, isIgnoring);
+            }
+        }
+        if ((feetIsTouchingForeground||feetIsTouchingPlatform) && isIgnoring)
+        {
+            StartCoroutine(WaitForDrop());
+        }
+
+    }
+
+    
+    private IEnumerator WaitForDrop()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        isIgnoring = false;
+        Physics2D.IgnoreCollision(myFeetCollider, platformCollider, isIgnoring);
+        Physics2D.IgnoreCollision(myBodyCollider, platformCollider, isIgnoring);
     }
 
     //Movement
@@ -86,13 +130,10 @@ public class MainCharacterBehavior : MonoBehaviour
 
     private void Jump()//jumping
     {
-        if(myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Foreground")))//if player is touching Foreground Layer
+        if(feetIsTouchingForeground || feetIsTouchingPlatform)//if player is touching Foreground Layer
         {
             if(Input.GetButtonDown("Jump"))//Get Jump Button
             {
-                //myAnimator.SetTrigger("TakeOf");//set Trigger of Animator
-                //Vector2 jumpVelocity = new Vector2(0f,jumpSpeed);//new Vector2(0, jumspeed)
-                //myRigidbody.velocity += jumpVelocity;//current velocity get added jumpVelocity   
                 myAnimator.SetBool("IsJumping", true);//set Bool of Animator
                 myRigidbody.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);   
             }
@@ -189,5 +230,12 @@ public class MainCharacterBehavior : MonoBehaviour
         isDashing = false;
         //myRigidbody.gravityScale = gravity;
         myAnimator.SetBool("DashRoll", isDashing);
+    }
+    private void IsTouching()
+    {
+        feetIsTouchingForeground = myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Foreground"));
+        bodyIsTouchingForeground = myBodyCollider.IsTouchingLayers(LayerMask.GetMask("Foreground"));
+        feetIsTouchingPlatform = myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Platform"));
+        bodyIsTouchingPlatform = myBodyCollider.IsTouchingLayers(LayerMask.GetMask("Platform"));
     }
 }
