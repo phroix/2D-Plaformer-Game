@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3990387932540445222}
   - component: {fileID: 3990387932540445223}
   - component: {fileID: 3990387932540445225}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: Main-Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -184,3 +184,5 @@ MonoBehaviour:
   moveSpeed: 6
   jumpSpeed: 25
   dashSpeed: 6
+  fallingThreshold: -0.1
+  jumpingThreshold: 0.1
