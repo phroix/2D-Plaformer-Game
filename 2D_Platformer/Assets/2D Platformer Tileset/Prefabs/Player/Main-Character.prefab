@@ -140,8 +140,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0049415827, y: 0.0049414635}
-  m_Size: {x: 0.88543916, y: 1.3656731}
+  m_Offset: {x: -0.010320663, y: -0.015326798}
+  m_Size: {x: 0.69817734, y: 1.4062096}
   m_Direction: 0
 --- !u!61 &3990387932540445223
 BoxCollider2D:
@@ -156,7 +156,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.03207016, y: -0.7190218}
+  m_Offset: {x: 0.03297615, y: -0.7528022}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -167,7 +167,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.44069672, y: 0.053361893}
+  m_Size: {x: 0.5217705, y: 0.03984964}
   m_EdgeRadius: 0
 --- !u!114 &3990387932540445225
 MonoBehaviour:
@@ -184,5 +184,5 @@ MonoBehaviour:
   moveSpeed: 6
   jumpSpeed: 25
   dashSpeed: 6
-  fallingThreshold: -0.1
-  jumpingThreshold: 0.1
+  dashDistance: 100
+  waitForDash: 0.4
