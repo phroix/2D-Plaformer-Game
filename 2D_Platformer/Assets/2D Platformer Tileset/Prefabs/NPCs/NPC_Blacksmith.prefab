@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3313398145133905437}
   - component: {fileID: 3313398145133905506}
   - component: {fileID: 3313398145133905507}
-  - component: {fileID: 3313398145133905438}
   - component: {fileID: 3313398145133905439}
   m_Layer: 11
   m_Name: NPC_Blacksmith
@@ -117,27 +116,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 762bda43fc2c0b3409c838f231f3d1ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!50 &3313398145133905438
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3313398145133905504}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
 --- !u!70 &3313398145133905439
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
