@@ -181,8 +181,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28a8f518b1afc9d4b9a6043852509ff9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 6
-  jumpSpeed: 25
+  moveSpeed: 10
+  jumpSpeed: 26
   dashSpeed: 6
   dashDistance: 100
   waitForDash: 0.4
