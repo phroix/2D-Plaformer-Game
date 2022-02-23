@@ -5,27 +5,30 @@ using UnityEngine;
 
 public class MainCharacterBehavior : MonoBehaviour
 {
-    [Header("Movement")]
+    [Header("Movement H/V")]
     public float moveSpeed = 5f;
     public float jumpSpeed = 10f;
-    public float dashSpeed = 50f;
 
-    public float dashDistance = 100f;
-    public float waitForDash = .4f;
+    [Header("Movement Dash")]
+    public float dashSpeed;
+    public float dashLength = .2f;
+    public float dashCooldown = 1f;
+    float activeMoveSpeed;
+    float dashCounter;
+    float dashCoolCounter;
 
-    //Player
+
+    //Players components
     Rigidbody2D myRigidbody;
     Collider2D myFeetCollider;
     CapsuleCollider2D myBodyCollider;
-    Animator myAnimator;
-     
-    //cached
-    bool dash;
-    float dashCooldown = 2;
-    float nextDash = 0;
+    Animator myAnimator;    
+
+    //falling & jumping cache
     float fallingThreshold = -.1f;
     float jumpingThreshold = .1f;
 
+    //
     bool isDashing;
     bool feetIsTouchingForeground;
     bool bodyIsTouchingForeground;
@@ -37,7 +40,9 @@ public class MainCharacterBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Time.timeScale = .5f;
+        Debug.Log(dashCounter);
+        Debug.Log(dashCoolCounter);
+        activeMoveSpeed = moveSpeed;
         myRigidbody = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
         myFeetCollider = GetComponent<BoxCollider2D>();
@@ -48,21 +53,21 @@ public class MainCharacterBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!dash)Move();
+        Move();
         FlipSprite();
         Jump();
-        Dash();
-        IsTouching();   
-
+        DashRoll();
+        IsTouching();
+        
     }
 
 
-//Movement
-private void Move()//move player
+    //Movement
+    private void Move()//move player
     {
         float control = Input.GetAxis("Horizontal");//get input manager axis
 
-        Vector2 playerPos = new Vector2(control * moveSpeed, myRigidbody.velocity.y);//creates new Vector2 with x=control * moveSpeed
+        Vector2 playerPos = new Vector2(control * activeMoveSpeed, myRigidbody.velocity.y);//creates new Vector2 with x=control * moveSpeed
         myRigidbody.velocity = playerPos;//every frame velocity gets updated
 
         bool isPlayerRunning = Mathf.Abs(myRigidbody.velocity.x) > Mathf.Epsilon;//Abs is always positive, Epsilon smallest float
@@ -124,78 +129,6 @@ private void Move()//move player
     {
         myAnimator.SetBool("IsFalling", CheckIfFalling());
     }
-
-    //Dash
-    private void Dash()//dashing
-    {
-        //float xspeed = myRigidbody.transform.localScale.x;//which direction player facing
-        //int facingSide = -1;
-
-        //if(xspeed == 1)//if facing right
-        //{
-        //    facingSide = 1;
-        //}
-
-        //if(myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Foreground")))//if player is touching Foreground Layer
-        //{
-
-        //    if(Input.GetButtonDown("Dash") && !dash)//Get Dash Button
-        //    {
-        //        StartCoroutine(DashCooldown(facingSide));
-        //    }
-
-        //}
-        //dashing left
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            if (doubleTapTime > Time.time && lastKeyCode == KeyCode.A)
-            {
-                StartCoroutine(DashCooldown(-1f));
-            }
-            else
-            {
-                doubleTapTime = Time.time + 0.3f;
-            }
-            lastKeyCode = KeyCode.A;
-
-        }
-        //dashing right
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            if (doubleTapTime > Time.time && lastKeyCode == KeyCode.D)
-            {
-                StartCoroutine(DashCooldown(1f));
-            }
-            else
-            {
-                doubleTapTime = Time.time + 0.3f;
-            }
-            lastKeyCode = KeyCode.D;
-        }
-    }
-
-    private IEnumerator DashCooldown(float facingSide)
-    {
-        //dash = true;
-        //myRigidbody.velocity = new Vector2(myRigidbody.velocity.x,0f); 
-        //myRigidbody.AddForce(new Vector2(dashSpeed*facingSide,0f),ForceMode2D.Impulse);//adds Force to Rigidbody of type Vector2
-        //myAnimator.SetBool("IsDashing",dash);
-        ////myAnimator.SetTrigger("Dash");
-        ////nextDash = Time.time + dashCooldown;
-        //yield return new WaitForSeconds(1);
-        //dash = false;
-        //myAnimator.SetBool("IsDashing",dash);
-        isDashing = true;
-        myRigidbody.velocity = new Vector2(myRigidbody.velocity.x, 0f);
-        myRigidbody.AddForce(new Vector2(dashDistance * facingSide, 0f), ForceMode2D.Impulse);
-        // float gravity = myRigidbody.gravityScale;
-        //myRigidbody.gravityScale = 0;
-        myAnimator.SetBool("DashRoll", isDashing);
-        yield return new WaitForSeconds(waitForDash);
-        isDashing = false;
-        //myRigidbody.gravityScale = gravity;
-        myAnimator.SetBool("DashRoll", isDashing);
-    }
     private void IsTouching()
     {
         feetIsTouchingForeground = myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Foreground"));
@@ -203,4 +136,36 @@ private void Move()//move player
         feetIsTouchingPlatform = myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Platform"));
         bodyIsTouchingPlatform = myBodyCollider.IsTouchingLayers(LayerMask.GetMask("Platform"));
     }
+
+    private void DashRoll()
+    {
+        if(Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            if(dashCoolCounter <= 0 && dashCounter <= 0)
+            {
+                //myAnimator.SetBool("IsDashing", true);
+                myAnimator.SetTrigger("Dash");
+                activeMoveSpeed = dashSpeed;
+                dashCounter = dashLength;
+            }
+        }
+
+        if(dashCounter > 0)
+        {
+            dashCounter -= Time.deltaTime;
+
+            if(dashCounter <= 0)
+            {
+                activeMoveSpeed = moveSpeed;
+                dashCoolCounter = dashCooldown;
+            }
+        }
+
+        if(dashCoolCounter > 0)
+        {
+            dashCoolCounter -= Time.deltaTime;
+        }
+    }
+
+
 }
