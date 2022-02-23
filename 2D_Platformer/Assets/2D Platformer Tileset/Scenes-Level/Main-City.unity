@@ -83487,6 +83487,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3990387932540445227, guid: 97de386152a05ab49b907f3e9d443e36, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3990387932540445227, guid: 97de386152a05ab49b907f3e9d443e36, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3990387932540445227, guid: 97de386152a05ab49b907f3e9d443e36, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 97de386152a05ab49b907f3e9d443e36, type: 3}
 --- !u!1 &1651431307
@@ -90709,7 +90721,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1865814610160913337, guid: 61215fec79d743741b57d4a8b06e655b, type: 3}
       propertyPath: orthographic size
-      value: 7
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1865814610160913337, guid: 61215fec79d743741b57d4a8b06e655b, type: 3}
       propertyPath: m_BackGroundColor.a
@@ -90729,15 +90741,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1865814610160913342, guid: 61215fec79d743741b57d4a8b06e655b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 111.412346
+      value: 6.5
       objectReference: {fileID: 0}
     - target: {fileID: 1865814610160913342, guid: 61215fec79d743741b57d4a8b06e655b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 51.60372
+      value: 6.1
       objectReference: {fileID: 0}
     - target: {fileID: 1865814610160913342, guid: 61215fec79d743741b57d4a8b06e655b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -33.010002
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1865814610233236145, guid: 61215fec79d743741b57d4a8b06e655b, type: 3}
       propertyPath: m_LocalPosition.x

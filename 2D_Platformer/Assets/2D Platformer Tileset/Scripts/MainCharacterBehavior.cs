@@ -40,14 +40,11 @@ public class MainCharacterBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log(dashCounter);
-        Debug.Log(dashCoolCounter);
         activeMoveSpeed = moveSpeed;
         myRigidbody = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
         myFeetCollider = GetComponent<BoxCollider2D>();
         myBodyCollider = GetComponent<CapsuleCollider2D>();
-        
     }
 
     // Update is called once per frame
@@ -58,7 +55,10 @@ public class MainCharacterBehavior : MonoBehaviour
         Jump();
         DashRoll();
         IsTouching();
-        
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            myAnimator.SetTrigger("Sword");
+        }
     }
 
 
@@ -73,8 +73,8 @@ public class MainCharacterBehavior : MonoBehaviour
         bool isPlayerRunning = Mathf.Abs(myRigidbody.velocity.x) > Mathf.Epsilon;//Abs is always positive, Epsilon smallest float
 
         myAnimator.SetBool("IsRunning", isPlayerRunning);//sets Bool of Animator true, if player has any movement
+        myAnimator.SetBool("SwordRun", isPlayerRunning);//sets Bool of Animator true, if player has any movement
     }
-
     private void FlipSprite()//flips sprite
     {
         bool hasHorizontalSpeed = Mathf.Abs(myRigidbody.velocity.x) > Mathf.Epsilon;//Abs is always positive, Epsilon smallest float
@@ -97,7 +97,6 @@ public class MainCharacterBehavior : MonoBehaviour
             return false;
         }
     }
-
     private void Jump()//jumping
     {
         if(feetIsTouchingForeground || feetIsTouchingPlatform)//if player is touching Foreground Layer
@@ -114,7 +113,6 @@ public class MainCharacterBehavior : MonoBehaviour
             myAnimator.SetBool("IsJumping", false);//set Bool of Animator
         }
     }
-
     private bool CheckIfFalling()//Checks if player is falling, negativ on y-axis
     {
         if(myRigidbody.velocity.y < fallingThreshold)//fi player falling return true
@@ -136,14 +134,12 @@ public class MainCharacterBehavior : MonoBehaviour
         feetIsTouchingPlatform = myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Platform"));
         bodyIsTouchingPlatform = myBodyCollider.IsTouchingLayers(LayerMask.GetMask("Platform"));
     }
-
     private void DashRoll()
     {
         if(Input.GetKeyDown(KeyCode.LeftShift))
         {
             if(dashCoolCounter <= 0 && dashCounter <= 0)
             {
-                //myAnimator.SetBool("IsDashing", true);
                 myAnimator.SetTrigger("Dash");
                 activeMoveSpeed = dashSpeed;
                 dashCounter = dashLength;
@@ -163,9 +159,13 @@ public class MainCharacterBehavior : MonoBehaviour
 
         if(dashCoolCounter > 0)
         {
+            Debug.Log("DashCoolCounter: " + dashCoolCounter);
             dashCoolCounter -= Time.deltaTime;
+
         }
     }
+
+
 
 
 }
