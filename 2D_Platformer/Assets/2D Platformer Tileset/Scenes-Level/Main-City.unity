@@ -83443,18 +83443,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main-Character
       objectReference: {fileID: 0}
-    - target: {fileID: 3990387932540445225, guid: 97de386152a05ab49b907f3e9d443e36, type: 3}
-      propertyPath: dashSpeed
-      value: 18
-      objectReference: {fileID: 0}
-    - target: {fileID: 3990387932540445225, guid: 97de386152a05ab49b907f3e9d443e36, type: 3}
-      propertyPath: moveSpeed
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3990387932540445225, guid: 97de386152a05ab49b907f3e9d443e36, type: 3}
-      propertyPath: dashLength
-      value: 0.3
-      objectReference: {fileID: 0}
     - target: {fileID: 3990387932540445226, guid: 97de386152a05ab49b907f3e9d443e36, type: 3}
       propertyPath: m_RootOrder
       value: 0
