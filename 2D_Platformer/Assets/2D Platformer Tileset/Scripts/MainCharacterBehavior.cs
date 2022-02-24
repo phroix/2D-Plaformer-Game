@@ -19,6 +19,9 @@ public class MainCharacterBehavior : MonoBehaviour
 
 
     //Players components
+    GameObject currentPlayer;
+    MainCharacterChildren mc;
+
     Rigidbody2D myRigidbody;
     Collider2D myFeetCollider;
     CapsuleCollider2D myBodyCollider;
@@ -40,25 +43,41 @@ public class MainCharacterBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        mc = FindObjectOfType<MainCharacterChildren>();
+        GetCurrentChild();
+        GetComponents(currentPlayer);
         activeMoveSpeed = moveSpeed;
-        myRigidbody = GetComponent<Rigidbody2D>();
-        myAnimator = GetComponent<Animator>();
-        myFeetCollider = GetComponent<BoxCollider2D>();
-        myBodyCollider = GetComponent<CapsuleCollider2D>();
+    }
+
+    private void GetComponents(GameObject gameObject)
+    {
+        if(gameObject != null)
+        {
+            myRigidbody = gameObject.GetComponent<Rigidbody2D>();
+            myAnimator = gameObject.GetComponent<Animator>();
+            myFeetCollider = gameObject.GetComponent<BoxCollider2D>();
+            myBodyCollider = gameObject.GetComponent<CapsuleCollider2D>();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        GetCurrentChild();
+        GetComponents(currentPlayer);
         Move();
         FlipSprite();
         Jump();
         DashRoll();
         IsTouching();
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            myAnimator.SetTrigger("Sword");
-        }
+        Debug.Log(currentPlayer);
+    }
+
+    
+
+    private void GetCurrentChild()//Get children of gameobject(MainCharacter)
+    {
+        currentPlayer = mc.GetCurrentPlayer();
     }
 
 
@@ -159,9 +178,7 @@ public class MainCharacterBehavior : MonoBehaviour
 
         if(dashCoolCounter > 0)
         {
-            Debug.Log("DashCoolCounter: " + dashCoolCounter);
             dashCoolCounter -= Time.deltaTime;
-
         }
     }
 
