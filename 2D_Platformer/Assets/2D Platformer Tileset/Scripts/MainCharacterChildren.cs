@@ -9,6 +9,7 @@ public class MainCharacterChildren : MonoBehaviour
     GameObject noWeaponPlayer;
     GameObject swordPlayer;
     GameObject bowPlayer;
+    GameObject cam;
     GameObject currentPlayer;
     // Start is called before the first frame update
     void Start()
@@ -22,8 +23,9 @@ public class MainCharacterChildren : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //gameObject.transform.position = currentPlayer.transform.position;
         ChangeChild();
+        if (currentPlayer != null) Debug.Log("update 2: " + currentPlayer);
+        cam.transform.position = currentPlayer.transform.position;
     }
 
     private void GetChildren()
@@ -31,6 +33,7 @@ public class MainCharacterChildren : MonoBehaviour
         noWeaponPlayer = gameObject.transform.GetChild(0).gameObject;
         swordPlayer = gameObject.transform.GetChild(1).gameObject;
         bowPlayer = gameObject.transform.GetChild(2).gameObject;
+        cam = gameObject.transform.GetChild(3).gameObject;
     }
 
 

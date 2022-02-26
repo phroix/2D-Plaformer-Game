@@ -19,9 +19,7 @@ public class MainCharacterBehavior : MonoBehaviour
 
 
     //Players components
-    GameObject currentPlayer;
-    MainCharacterChildren mc;
-
+ 
     Rigidbody2D myRigidbody;
     Collider2D myFeetCollider;
     CapsuleCollider2D myBodyCollider;
@@ -43,57 +41,38 @@ public class MainCharacterBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        mc = FindObjectOfType<MainCharacterChildren>();
-        GetCurrentChild();
-        GetComponents(currentPlayer);
+        //myRigidbody = gameObject.GetComponent<Rigidbody2D>();
+        myAnimator = gameObject.GetComponent<Animator>();
+        myFeetCollider = gameObject.GetComponent<BoxCollider2D>();
+        myBodyCollider = gameObject.GetComponent<CapsuleCollider2D>();
         activeMoveSpeed = moveSpeed;
     }
 
-    private void GetComponents(GameObject gameObject)
-    {
-        if(gameObject != null)
-        {
-            myRigidbody = gameObject.GetComponent<Rigidbody2D>();
-            myAnimator = gameObject.GetComponent<Animator>();
-            myFeetCollider = gameObject.GetComponent<BoxCollider2D>();
-            myBodyCollider = gameObject.GetComponent<CapsuleCollider2D>();
-        }
-    }
 
     // Update is called once per frame
     void Update()
     {
-        GetCurrentChild();
-        GetComponents(currentPlayer);
-        Move();
+        //Move();
         FlipSprite();
         Jump();
         DashRoll();
         IsTouching();
-        Debug.Log(currentPlayer);
-    }
 
-    
-
-    private void GetCurrentChild()//Get children of gameobject(MainCharacter)
-    {
-        currentPlayer = mc.GetCurrentPlayer();
-    }
-
+    }  
 
     //Movement
-    private void Move()//move player
-    {
-        float control = Input.GetAxis("Horizontal");//get input manager axis
+    //private void Move()//move player
+    //{
+    //    float control = Input.GetAxis("Horizontal");//get input manager axis
 
-        Vector2 playerPos = new Vector2(control * activeMoveSpeed, myRigidbody.velocity.y);//creates new Vector2 with x=control * moveSpeed
-        myRigidbody.velocity = playerPos;//every frame velocity gets updated
+    //    Vector2 playerPos = new Vector2(control * activeMoveSpeed, myRigidbody.velocity.y);//creates new Vector2 with x=control * moveSpeed
+    //    myRigidbody.velocity = playerPos;//every frame velocity gets updated
 
-        bool isPlayerRunning = Mathf.Abs(myRigidbody.velocity.x) > Mathf.Epsilon;//Abs is always positive, Epsilon smallest float
+    //    bool isPlayerRunning = Mathf.Abs(myRigidbody.velocity.x) > Mathf.Epsilon;//Abs is always positive, Epsilon smallest float
 
-        myAnimator.SetBool("IsRunning", isPlayerRunning);//sets Bool of Animator true, if player has any movement
-        myAnimator.SetBool("SwordRun", isPlayerRunning);//sets Bool of Animator true, if player has any movement
-    }
+    //    myAnimator.SetBool("IsRunning", isPlayerRunning);//sets Bool of Animator true, if player has any movement
+    //    myAnimator.SetBool("SwordRun", isPlayerRunning);//sets Bool of Animator true, if player has any movement
+    //}
     private void FlipSprite()//flips sprite
     {
         bool hasHorizontalSpeed = Mathf.Abs(myRigidbody.velocity.x) > Mathf.Epsilon;//Abs is always positive, Epsilon smallest float
