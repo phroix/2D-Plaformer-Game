@@ -19,6 +19,7 @@ public class MainCharacterBehavior : MonoBehaviour
 
 
     //Players components
+ 
     Rigidbody2D myRigidbody;
     Collider2D myFeetCollider;
     CapsuleCollider2D myBodyCollider;
@@ -40,41 +41,38 @@ public class MainCharacterBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log(dashCounter);
-        Debug.Log(dashCoolCounter);
+        //myRigidbody = gameObject.GetComponent<Rigidbody2D>();
+        myAnimator = gameObject.GetComponent<Animator>();
+        myFeetCollider = gameObject.GetComponent<BoxCollider2D>();
+        myBodyCollider = gameObject.GetComponent<CapsuleCollider2D>();
         activeMoveSpeed = moveSpeed;
-        myRigidbody = GetComponent<Rigidbody2D>();
-        myAnimator = GetComponent<Animator>();
-        myFeetCollider = GetComponent<BoxCollider2D>();
-        myBodyCollider = GetComponent<CapsuleCollider2D>();
-        
     }
+
 
     // Update is called once per frame
     void Update()
     {
-        Move();
+        //Move();
         FlipSprite();
         Jump();
         DashRoll();
         IsTouching();
-        
-    }
 
+    }  
 
     //Movement
-    private void Move()//move player
-    {
-        float control = Input.GetAxis("Horizontal");//get input manager axis
+    //private void Move()//move player
+    //{
+    //    float control = Input.GetAxis("Horizontal");//get input manager axis
 
-        Vector2 playerPos = new Vector2(control * activeMoveSpeed, myRigidbody.velocity.y);//creates new Vector2 with x=control * moveSpeed
-        myRigidbody.velocity = playerPos;//every frame velocity gets updated
+    //    Vector2 playerPos = new Vector2(control * activeMoveSpeed, myRigidbody.velocity.y);//creates new Vector2 with x=control * moveSpeed
+    //    myRigidbody.velocity = playerPos;//every frame velocity gets updated
 
-        bool isPlayerRunning = Mathf.Abs(myRigidbody.velocity.x) > Mathf.Epsilon;//Abs is always positive, Epsilon smallest float
+    //    bool isPlayerRunning = Mathf.Abs(myRigidbody.velocity.x) > Mathf.Epsilon;//Abs is always positive, Epsilon smallest float
 
-        myAnimator.SetBool("IsRunning", isPlayerRunning);//sets Bool of Animator true, if player has any movement
-    }
-
+    //    myAnimator.SetBool("IsRunning", isPlayerRunning);//sets Bool of Animator true, if player has any movement
+    //    myAnimator.SetBool("SwordRun", isPlayerRunning);//sets Bool of Animator true, if player has any movement
+    //}
     private void FlipSprite()//flips sprite
     {
         bool hasHorizontalSpeed = Mathf.Abs(myRigidbody.velocity.x) > Mathf.Epsilon;//Abs is always positive, Epsilon smallest float
@@ -97,7 +95,6 @@ public class MainCharacterBehavior : MonoBehaviour
             return false;
         }
     }
-
     private void Jump()//jumping
     {
         if(feetIsTouchingForeground || feetIsTouchingPlatform)//if player is touching Foreground Layer
@@ -114,7 +111,6 @@ public class MainCharacterBehavior : MonoBehaviour
             myAnimator.SetBool("IsJumping", false);//set Bool of Animator
         }
     }
-
     private bool CheckIfFalling()//Checks if player is falling, negativ on y-axis
     {
         if(myRigidbody.velocity.y < fallingThreshold)//fi player falling return true
@@ -136,14 +132,12 @@ public class MainCharacterBehavior : MonoBehaviour
         feetIsTouchingPlatform = myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Platform"));
         bodyIsTouchingPlatform = myBodyCollider.IsTouchingLayers(LayerMask.GetMask("Platform"));
     }
-
     private void DashRoll()
     {
         if(Input.GetKeyDown(KeyCode.LeftShift))
         {
             if(dashCoolCounter <= 0 && dashCounter <= 0)
             {
-                //myAnimator.SetBool("IsDashing", true);
                 myAnimator.SetTrigger("Dash");
                 activeMoveSpeed = dashSpeed;
                 dashCounter = dashLength;
@@ -166,6 +160,8 @@ public class MainCharacterBehavior : MonoBehaviour
             dashCoolCounter -= Time.deltaTime;
         }
     }
+
+
 
 
 }
