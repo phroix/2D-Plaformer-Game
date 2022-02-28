@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerSwordCombat : MonoBehaviour
 {
@@ -18,12 +19,21 @@ public class PlayerSwordCombat : MonoBehaviour
     public float qAttackRange = 0.5f;
     public float qAttackRate = 2f;
     public float qAttackDamage = 0f;
+    public float nextQAttackTime;
+    public int cooldownQTime = 3;
+    public Image qAbilityImage;
+    bool isQCooldown = false;
 
     [Header("E Attack")]
     public Transform eAttackPoint;
     public float eAttackRange = 0.5f;
     public float eAttackRate = 2f;
     public float eAttackDamage = 0f;
+    public float nextEAttackTime;
+    public int cooldownETime = 5;
+    public Image eAbilityImage;
+    bool isECooldown = false;
+
 
 
     //Parent Objects
@@ -40,14 +50,23 @@ public class PlayerSwordCombat : MonoBehaviour
         parentRigidbody2D = parentObject.GetComponent<Rigidbody2D>();
 
         myAnimator = gameObject.GetComponent<Animator>();
+
+        qAbilityImage.fillAmount = 0;
+        //eAbilityImage.fillAmount = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
         NormalAttack();
-        QAttack();
-        EAttack();
+        if(Time.time > nextQAttackTime) QAttack();
+        if (Time.time > nextEAttackTime) EAttack();
+
+        if (isQCooldown == false)
+        {
+
+            
+        }
     }
 
     //normal attack player with left mouse klick
@@ -83,8 +102,18 @@ public class PlayerSwordCombat : MonoBehaviour
     {
         if (Time.time >= nextAttackTime)
         {
-            if (Input.GetKeyDown(KeyCode.Q))
+           
+
+            if (Input.GetKeyDown(KeyCode.Q) && isQCooldown == false)
             {
+                //Cooldown
+                nextQAttackTime = Time.time + cooldownQTime;
+
+                isQCooldown = true;
+                qAbilityImage.fillAmount = 1;
+
+                
+
                 //Make Player stand still
                 parentRigidbody2D.bodyType = RigidbodyType2D.Static;
                 //Play attack animation
@@ -104,7 +133,20 @@ public class PlayerSwordCombat : MonoBehaviour
             {
                 parentRigidbody2D.bodyType = RigidbodyType2D.Dynamic;
             }
+
+            if (isQCooldown)
+            {
+                Debug.Log("test");
+                qAbilityImage.fillAmount -= 1 / cooldownQTime * Time.deltaTime;
+
+                if (qAbilityImage.fillAmount <= 0)
+                {
+                    qAbilityImage.fillAmount = 0;
+                    isQCooldown = false;
+                }
+            }
         }
+        
     }
 
 
@@ -114,6 +156,8 @@ public class PlayerSwordCombat : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
+                //Make Cooldown
+                nextEAttackTime = Time.time + cooldownETime;
                 //Make Player stand still
                 parentRigidbody2D.bodyType = RigidbodyType2D.Static;
                 //Play attack animation
