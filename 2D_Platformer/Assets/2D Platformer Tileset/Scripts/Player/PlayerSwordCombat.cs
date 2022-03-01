@@ -46,8 +46,6 @@ public class PlayerSwordCombat : MonoBehaviour
 
     bool isECooldown = false;
 
-
-
     //Parent Objects
     GameObject parentObject;
     Rigidbody2D parentRigidbody2D;
@@ -74,15 +72,12 @@ public class PlayerSwordCombat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (parentBoxCollider2D.IsTouchingLayers(LayerMask.GetMask("Foreground")))
-        {
-            NormalAttack(); 
-            QAttack();
-            EAttack();
-        }
+        NormalAttack(); 
+        QAttack();
+        EAttack();
     }
 
-    //normal attack player with left mouse klick
+    //normal attack player activate with left mouse klick
     private void NormalAttack()
     {
         if (Time.time <= nextMove)
@@ -92,7 +87,7 @@ public class PlayerSwordCombat : MonoBehaviour
 
         if (Time.time >= nextAttackTime)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            if (Input.GetKeyDown(KeyCode.Mouse0) && parentBoxCollider2D.IsTouchingLayers(LayerMask.GetMask("Foreground")))
             {
                 //Make Player stand still
                 nextMove = Time.time + (1f / normalAttackRate);
@@ -116,7 +111,7 @@ public class PlayerSwordCombat : MonoBehaviour
             }
         }
     }
-
+    //Special attack with cooldown, activate with Key Q
     private void QAttack()
     {
         //Make Player stand still while attacking
@@ -127,7 +122,7 @@ public class PlayerSwordCombat : MonoBehaviour
 
         if (Time.time >= nextQAttackTime)
         {
-            if (Input.GetKeyDown(KeyCode.Q) && isQCooldown == false)
+            if (Input.GetKeyDown(KeyCode.Q) && isQCooldown == false && parentBoxCollider2D.IsTouchingLayers(LayerMask.GetMask("Foreground")))
             {
                 Debug.Log("Q pressed");
                 //Cooldown
@@ -166,6 +161,7 @@ public class PlayerSwordCombat : MonoBehaviour
         }
 
     }
+    //Special attack with cooldown, activate with Key E
     private void EAttack()
     {
         Debug.Log("E ATTACK");
@@ -177,7 +173,7 @@ public class PlayerSwordCombat : MonoBehaviour
         }
         if (Time.time >= nextEAttackTime)
         {
-            if (Input.GetKeyDown(KeyCode.E) && isECooldown == false)
+            if (Input.GetKeyDown(KeyCode.E) && isECooldown == false && parentBoxCollider2D.IsTouchingLayers(LayerMask.GetMask("Foreground")))
             {
                 Debug.Log("E pressed");
                 //Cooldown
