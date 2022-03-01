@@ -51,6 +51,7 @@ public class PlayerSwordCombat : MonoBehaviour
     //Parent Objects
     GameObject parentObject;
     Rigidbody2D parentRigidbody2D;
+    BoxCollider2D parentBoxCollider2D;
 
     //Component Gameobjects
     Animator myAnimator;
@@ -59,15 +60,13 @@ public class PlayerSwordCombat : MonoBehaviour
     {
         parentObject = gameObject.transform.parent.gameObject;
         parentRigidbody2D = parentObject.GetComponent<Rigidbody2D>();
-        Debug.Log(parentRigidbody2D.name);
-        Debug.Log(parentObject.name);
+        parentBoxCollider2D = parentObject.GetComponent<BoxCollider2D>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
         myAnimator = gameObject.GetComponent<Animator>();
-
         qAbilityImage.fillAmount = 0;
         eAbilityImage.fillAmount = 0;
     }
@@ -75,9 +74,12 @@ public class PlayerSwordCombat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        NormalAttack(); 
-        QAttack();
-        EAttack();
+        if (parentBoxCollider2D.IsTouchingLayers(LayerMask.GetMask("Foreground")))
+        {
+            NormalAttack(); 
+            QAttack();
+            EAttack();
+        }
     }
 
     //normal attack player with left mouse klick
