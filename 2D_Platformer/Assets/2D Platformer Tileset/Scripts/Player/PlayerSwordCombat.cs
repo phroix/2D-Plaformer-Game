@@ -27,7 +27,7 @@ public class PlayerSwordCombat : MonoBehaviour
     public float qAttackRange = 0.5f;
     public float qAttackRate = 2f;
     
-    public float cooldownQTime = 3f;
+    public float cooldownQTime = 5f;
     float nextQAttackTime = 0f;
     
     bool isQCooldown = false;
@@ -41,7 +41,7 @@ public class PlayerSwordCombat : MonoBehaviour
     public float eAttackRange = 0.5f;
     public float eAttackRate = 2f;
     
-    public float cooldownETime = 5f;
+    public float cooldownETime = 3f;
     float nextEAttackTime = 0f;
 
     bool isECooldown = false;
@@ -132,7 +132,7 @@ public class PlayerSwordCombat : MonoBehaviour
                 nextMove = Time.time + (1f / qAttackRate);
                 
                 //Play attack animation
-                myAnimator.SetTrigger("QAttack");
+                myAnimator.SetTrigger("EAttack");
 
                 //Detect enemies in  range of attack
                 Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(qAttackPoint.position, qAttackRange, enemyLayers);
@@ -183,7 +183,7 @@ public class PlayerSwordCombat : MonoBehaviour
                 nextMove = Time.time + (1f / eAttackRate);
 
                 //Play attack animation
-                myAnimator.SetTrigger("EAttack");
+                myAnimator.SetTrigger("QAttack");
 
                 //Detect enemies in  range of attack
                 Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(eAttackPoint.position, eAttackRange, enemyLayers);

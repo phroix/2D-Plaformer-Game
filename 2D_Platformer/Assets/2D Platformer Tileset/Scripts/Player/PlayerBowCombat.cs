@@ -11,6 +11,7 @@ public class PlayerBowCombat : MonoBehaviour
     public Transform shotpoint;
     public LayerMask enemyLayers;
 
+    [Header("Normal Attack")]
     public float normalArrowSpeed = 100000f;
     public float yAxis = .5f;
 
@@ -19,6 +20,14 @@ public class PlayerBowCombat : MonoBehaviour
 
     float nextAttackTime = 0f;
     float nextMove = 0f;
+
+    [Header("Normal Attack")]
+    public float qArrowSpeed = 100000f;
+
+    public float qAttackRange = 0.5f;
+    public float qAttackRate = 2f;
+
+    float nextQAttackTime = 0f;
 
     //public float launchForce;
 
@@ -94,8 +103,9 @@ public class PlayerBowCombat : MonoBehaviour
         }
     }
 
-    private void InstatiateArrow()
+    private void InstatiateArrow(float arrowSpeed)
     {
+        arrowSpeed = normalArrowSpeed;
         GameObject newArrow = Instantiate(arrow, shotpoint.position, shotpoint.rotation) as GameObject;
         //if(!localScalel) newArrow.transform.localScale *= -1;
         newArrow.GetComponent<Rigidbody2D>().velocity = new Vector2(xspeed * normalArrowSpeed, yAxis);
