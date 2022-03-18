@@ -6,17 +6,25 @@ using UnityEngine.UI;
 
 public class PlayerHealthXpSystem : MonoBehaviour
 {
+    [Header("Player Health")]
     public int maxHealth = 120;
     public int currentHealth;
 
     public HealthBar healthBar;
     public Text healthText;
 
+    [Header("Player Energy")]
     public int maxEnergy = 60;
     public int currentEnergy;
 
     public EnergyBar energyBar;
     public Text energyText;
+
+    [Header("Player XP")]
+    public int maxLevel = 8;
+    public int maxXP = 2800;
+    public int currentXP;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,7 +32,6 @@ public class PlayerHealthXpSystem : MonoBehaviour
         healthBar.SetMaxHealth(maxHealth);
         currentEnergy = maxEnergy;
         energyBar.SetMaxEnergy(maxEnergy);
-
     }
 
     // Update is called once per frame
@@ -32,6 +39,7 @@ public class PlayerHealthXpSystem : MonoBehaviour
     {
         healthText.text = currentHealth + "/" + maxHealth;
         energyText.text = currentEnergy + "/" + maxEnergy;
+
         if (Input.GetKeyDown(KeyCode.G))
         {
             TakeDamage(20);
