@@ -25,6 +25,8 @@ public class PlayerHealthXpSystem : MonoBehaviour
     public int maxXP = 2800;
     public int currentXP;
 
+    public XpBar xpBar;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,11 +34,14 @@ public class PlayerHealthXpSystem : MonoBehaviour
         healthBar.SetMaxHealth(maxHealth);
         currentEnergy = maxEnergy;
         energyBar.SetMaxEnergy(maxEnergy);
+        currentXP = 0;
+        xpBar.SetXP(currentXP);
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         healthText.text = currentHealth + "/" + maxHealth;
         energyText.text = currentEnergy + "/" + maxEnergy;
 
@@ -47,8 +52,17 @@ public class PlayerHealthXpSystem : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.H))
         {
-            IncreaseEnergy(10);
+            DecreaseEnergy(10);
         }
+
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            IncreaseXP(5);
+        }
+
+        Debug.Log("CurrentHP: " + currentHealth);
+        Debug.Log("CurrentEnergy: " + currentEnergy);
+        Debug.Log("CurrentXP: " + currentXP);
     }
 
     private void TakeDamage(int damage)
@@ -57,9 +71,15 @@ public class PlayerHealthXpSystem : MonoBehaviour
         healthBar.SetHealth(currentHealth);
     }
 
-    private void IncreaseEnergy(int energy)
+    private void DecreaseEnergy(int energy)
     {
         currentEnergy -= energy;
         energyBar.SetEnergy(currentEnergy);
+    }
+
+    private void IncreaseXP(int xp)
+    {
+        currentXP += xp;
+        xpBar.AddXP(xp);
     }
 }

@@ -51,10 +51,6 @@ public class PlayerBowCombat : MonoBehaviour
     bool localScalel;
     float xspeed;
 
-    Coroutine myCoroutine;
-
-
-
     private void Awake()
     {
         parentObject = gameObject.transform.parent.gameObject;
