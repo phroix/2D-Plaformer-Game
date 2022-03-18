@@ -72891,7 +72891,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2033981589}
-  m_RootOrder: 223
+  m_RootOrder: 220
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1352635942
 SpriteRenderer:
@@ -79667,10 +79667,10 @@ Transform:
   - {fileID: 445104674}
   - {fileID: 1423126915}
   - {fileID: 812361646}
+  - {fileID: 1352635941}
   - {fileID: 82810570}
   - {fileID: 603871477}
   - {fileID: 1132744016}
-  - {fileID: 1352635941}
   - {fileID: 1310254964}
   m_Father: {fileID: 1107365141}
   m_RootOrder: 2

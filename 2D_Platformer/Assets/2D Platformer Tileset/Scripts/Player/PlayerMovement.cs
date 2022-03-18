@@ -43,6 +43,9 @@ public class PlayerMovement : MonoBehaviour
     bool feetIsTouchingPlatform;
     bool bodyIsTouchingPlatform;
 
+    public GameObject qAbility;
+    public GameObject eAbility;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -89,28 +92,18 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1))//Check if 1 is pressed
         {
             SetWeaponActive(true, false, false, defaultWeapon);
-            //defaultWeapon.SetActive(true);
-            //swordWeapon.SetActive(false);
-            //bowWeapon.SetActive(false);
-            //currentWeapon = defaultWeapon;
+            
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))//Check if 2 is pressed
         {
             SetWeaponActive(false, true, false, swordWeapon);
-            //defaultWeapon.SetActive(false);
-            //swordWeapon.SetActive(true);
-            //bowWeapon.SetActive(false);
-            //currentWeapon = swordWeapon;
+            
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha3))//Check if 3 is pressed
         {
             SetWeaponActive(false, false, true, bowWeapon);
-            //defaultWeapon.SetActive(false);
-            //swordWeapon.SetActive(false);
-            //bowWeapon.SetActive(true);
-            //currentWeapon = bowWeapon;
         }
 
         if (childAnimator != null) childAnimator = currentWeapon.GetComponent<Animator>(); //gets component of child Animator
@@ -122,6 +115,10 @@ public class PlayerMovement : MonoBehaviour
         swordWeapon.SetActive(b2);
         bowWeapon.SetActive(b3);
         if(g!=null) currentWeapon = g;
+        
+        qAbility.SetActive(!b1);
+        eAbility.SetActive(!b1);
+        
     }
     //move player
     private void Move()
