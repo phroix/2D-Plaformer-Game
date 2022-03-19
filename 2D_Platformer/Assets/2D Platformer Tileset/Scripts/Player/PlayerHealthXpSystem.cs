@@ -22,8 +22,14 @@ public class PlayerHealthXpSystem : MonoBehaviour
 
     [Header("Player XP")]
     public int maxLevel = 8;
+    public int currentLevel;
     public int maxXP = 2800;
+    public int maxLevelXp = 400;
     public int currentXP;
+
+    public XpBar xpBar;
+    public Text xpText;
+    public Text levelText;
 
     // Start is called before the first frame update
     void Start()
@@ -32,13 +38,27 @@ public class PlayerHealthXpSystem : MonoBehaviour
         healthBar.SetMaxHealth(maxHealth);
         currentEnergy = maxEnergy;
         energyBar.SetMaxEnergy(maxEnergy);
+
+        currentXP = 0;
+        xpBar.SetMaxXP(maxLevelXp);
+        xpBar.SetXP(currentXP);
+        currentLevel = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         healthText.text = currentHealth + "/" + maxHealth;
         energyText.text = currentEnergy + "/" + maxEnergy;
+        xpText.text = currentXP + "\n/\n" + maxLevelXp;
+
+        levelText.text = currentLevel.ToString();
+        if (currentLevel == maxLevel)
+        {
+            currentXP = maxLevelXp;
+            xpBar.SetXP(currentXP);
+        }
 
         if (Input.GetKeyDown(KeyCode.G))
         {
@@ -47,8 +67,17 @@ public class PlayerHealthXpSystem : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.H))
         {
-            IncreaseEnergy(10);
+            DecreaseEnergy(10);
         }
+
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            IncreaseXP(100);
+        }
+
+        Debug.Log("CurrentHP: " + currentHealth);
+        Debug.Log("CurrentEnergy: " + currentEnergy);
+        Debug.Log("CurrentXP: " + currentXP);
     }
 
     private void TakeDamage(int damage)
@@ -57,9 +86,37 @@ public class PlayerHealthXpSystem : MonoBehaviour
         healthBar.SetHealth(currentHealth);
     }
 
-    private void IncreaseEnergy(int energy)
+    private void DecreaseEnergy(int energy)
     {
         currentEnergy -= energy;
         energyBar.SetEnergy(currentEnergy);
+    }
+
+    private void IncreaseXP(int xp)
+    {
+        if(currentXP < maxLevelXp && currentLevel != maxLevel)
+        {
+            currentXP += xp;
+            xpBar.SetXP(currentXP);
+        }
+        
+
+        if (currentXP == maxLevelXp)
+        {
+            IncreaseLevel();
+        }
+    }
+
+    private void IncreaseLevel()
+    {
+        if (currentXP <= maxLevelXp)
+        {
+            if(currentLevel < maxLevel)
+            {
+                ++currentLevel;
+                currentXP = 0;
+                xpBar.SetXP(currentXP);
+            }  
+        }
     }
 }
