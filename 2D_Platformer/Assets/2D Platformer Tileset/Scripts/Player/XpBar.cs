@@ -6,40 +6,22 @@ using UnityEngine.UI;
 
 public class XpBar : MonoBehaviour
 {
-    public Image xpBar;
+    public Slider xpSlider;
 
-    public void SetStartXP(float xp)
+    public void SetMaxXP(int xp) //For one level
     {
-        xpBar.fillAmount = xp;
-        //XpSlider.maxValue = xp;
-        //XpSlider.value = xp;
+        xpSlider.maxValue = xp;
+        xpSlider.value = xp;
     }
 
-    //if (isQCooldown)//Qooldown image fillamount increase
-    //    {
-    //        qAbilityImage.fillAmount = qAbilityImage.fillAmount - (1 / cooldownQTime* Time.deltaTime);
-
-    //        if (qAbilityImage.fillAmount == 0)
-    //        {
-    //            qAbilityImage.fillAmount = 0;
-    //            isQCooldown = false;
-    //        }
-    //    }
-
-    public void SetXP(float xp)
+    public void ResetXP(int xp)
     {
-        if(xp != 0)
-        {
-            xpBar.fillAmount = 1 / xp;
-        }
-        else
-        {
-            xpBar.fillAmount = xp;
-        }
+        xpSlider.maxValue = xp;
+        xpSlider.value = 0;
     }
 
-    public void AddXP(float xp)
+    public void SetXP(int xp)
     {
-        xpBar.fillAmount += (1 / xp) / 4;
+        xpSlider.value = xp;
     }
 }
