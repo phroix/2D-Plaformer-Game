@@ -24,8 +24,10 @@ public class PlayerHealthXpSystem : MonoBehaviour
     public int maxLevel = 8;
     public int currentLevel;
     public int maxXP = 2800;
-    public int maxLevelXp = 400;
+    public int maxEachLevelXp = 400;
     public int currentXP;
+    public int toMuchXP;
+    private bool reachedMaxLevel = false;
 
     public XpBar xpBar;
     public Text xpText;
@@ -40,9 +42,9 @@ public class PlayerHealthXpSystem : MonoBehaviour
         energyBar.SetMaxEnergy(maxEnergy);
 
         currentXP = 0;
-        xpBar.SetMaxXP(maxLevelXp);
+        currentLevel = 0;
+        xpBar.SetMaxXP(maxEachLevelXp);
         xpBar.SetXP(currentXP);
-        currentLevel = 1;
     }
 
     // Update is called once per frame
@@ -51,14 +53,9 @@ public class PlayerHealthXpSystem : MonoBehaviour
         
         healthText.text = currentHealth + "/" + maxHealth;
         energyText.text = currentEnergy + "/" + maxEnergy;
-        xpText.text = currentXP + "\n/\n" + maxLevelXp;
+        xpText.text = currentXP + "\n/\n" + maxEachLevelXp;
 
         levelText.text = currentLevel.ToString();
-        if (currentLevel == maxLevel)
-        {
-            currentXP = maxLevelXp;
-            xpBar.SetXP(currentXP);
-        }
 
         if (Input.GetKeyDown(KeyCode.G))
         {
@@ -72,51 +69,78 @@ public class PlayerHealthXpSystem : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.J))
         {
-            IncreaseXP(100);
+            IncreaseXP(150);
         }
 
-        Debug.Log("CurrentHP: " + currentHealth);
-        Debug.Log("CurrentEnergy: " + currentEnergy);
-        Debug.Log("CurrentXP: " + currentXP);
+        //Debug.Log("CurrentHP: " + currentHealth);
+        //Debug.Log("CurrentEnergy: " + currentEnergy);
+        //Debug.Log("CurrentXP: " + currentXP);
     }
 
-    private void TakeDamage(int damage)
+    public void IncreaseHP(int hp)
+    {
+        if(currentHealth < maxHealth)
+            currentHealth += hp;
+    }
+
+    public void TakeDamage(int damage)
     {
         currentHealth -= damage;
         healthBar.SetHealth(currentHealth);
     }
 
-    private void DecreaseEnergy(int energy)
+    public void DecreaseEnergy(int energy)
     {
         currentEnergy -= energy;
         energyBar.SetEnergy(currentEnergy);
     }
 
-    private void IncreaseXP(int xp)
+    public void IncreaseXP(int xp)
     {
-        if(currentXP < maxLevelXp && currentLevel != maxLevel)
+        if (reachedMaxLevel)
+            return;
+
+        currentXP += xp;
+        //Debug.Log("MaxXP: " + maxXP + " CurrentXp: " + currentXP + " xpIncreased: " +xpIncreased);
+        if (currentXP == maxEachLevelXp)
         {
-            currentXP += xp;
+            //Debug.Log("currentXP == maxEachLevelXp");    
+            IncreaseLevel();
+            //maxXP -= currentXP;
+            xpBar.ResetXP(maxEachLevelXp);
+            currentXP = 0;
+        } else if (currentXP > maxEachLevelXp)
+        {
+            //Debug.Log("currentXP > maxEachLevelXp");
+            maxXP -= currentXP;
+            int overXP = currentXP - maxEachLevelXp;         
+            IncreaseLevel();
+            //xpBar.ResetXP(maxEachLevelXp);
+            currentXP = overXP;
+
+        }
+
+        if (reachedMaxLevel)
+        {
+            xpBar.SetXP(maxEachLevelXp);
+            currentXP = maxEachLevelXp;
+        }
+        else
+        { 
             xpBar.SetXP(currentXP);
         }
-        
 
-        if (currentXP == maxLevelXp)
-        {
-            IncreaseLevel();
-        }
     }
 
-    private void IncreaseLevel()
+    public void IncreaseLevel()
     {
-        if (currentXP <= maxLevelXp)
+        if(currentLevel != 8)
         {
-            if(currentLevel < maxLevel)
-            {
-                ++currentLevel;
-                currentXP = 0;
-                xpBar.SetXP(currentXP);
-            }  
+            ++currentLevel;
+        }
+        else
+        {
+            reachedMaxLevel = true;
         }
     }
 }
