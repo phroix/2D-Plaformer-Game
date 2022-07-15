@@ -134,6 +134,7 @@ public class PlayerMovement : MonoBehaviour
         //childAnimator.SetBool("SwordRun", isPlayerRunning);//sets Bool of Animator true, if player has any movement
     }
 
+
     //flips sprite
     private void FlipSprite()
     {
