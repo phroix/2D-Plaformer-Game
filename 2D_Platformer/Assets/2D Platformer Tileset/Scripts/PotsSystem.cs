@@ -13,10 +13,13 @@ public class PotsSystem : MonoBehaviour
 
     Pots pot;
 
+    bool collectedPot = false;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        pot = FindObjectOfType<Pots>();
         GetChildren();
         int randomNumb = Random.Range(1, 5);
 
@@ -38,8 +41,9 @@ public class PotsSystem : MonoBehaviour
                 //currentPot = energyPot;
                 setCurrentPot(energyPot, false, false, false, true);
                 break;
-
         }
+
+        Debug.Log(currentPot.name);
         
 
     }
@@ -47,7 +51,12 @@ public class PotsSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+        UsePots();
+    }
+
+    private void UsePots()
+    {
+        //if()
     }
 
     private void GetChildren()
@@ -69,10 +78,10 @@ public class PotsSystem : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log(col.name);
-        if (col.name == "Player") return;
+        if (col.name != "Player" && collectedPot) return;
+        collectedPot = true;
 
-        switch (gameObject.name)
+        switch (currentPot.name)
         {
             case "Health":
                 //currentPot = healthPot;
