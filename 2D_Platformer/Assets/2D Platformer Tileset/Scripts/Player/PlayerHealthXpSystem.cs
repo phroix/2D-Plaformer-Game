@@ -36,6 +36,11 @@ public class PlayerHealthXpSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GetBars();
+    }
+
+    private void GetBars()
+    {
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
         currentEnergy = maxEnergy;
@@ -50,16 +55,12 @@ public class PlayerHealthXpSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        healthText.text = currentHealth + "/" + maxHealth;
-        energyText.text = currentEnergy + "/" + maxEnergy;
-        xpText.text = currentXP + "\n/\n" + maxEachLevelXp;
-
-        levelText.text = currentLevel.ToString();
+        Debug.Log("CurrentLevel: " + currentLevel);
+        DisplayBars();
 
         if (Input.GetKeyDown(KeyCode.G))
         {
-            TakeDamage(20);
+            TakeDamage(10);
         }
 
         if (Input.GetKeyDown(KeyCode.H))
@@ -72,15 +73,56 @@ public class PlayerHealthXpSystem : MonoBehaviour
             IncreaseXP(150);
         }
 
-        //Debug.Log("CurrentHP: " + currentHealth);
-        //Debug.Log("CurrentEnergy: " + currentEnergy);
-        //Debug.Log("CurrentXP: " + currentXP);
+    }
+
+    private void DisplayBars()
+    {
+        healthText.text = currentHealth + "/" + maxHealth;
+        energyText.text = currentEnergy + "/" + maxEnergy;
+        xpText.text = currentXP + "\n/\n" + maxEachLevelXp;
+
+        levelText.text = currentLevel.ToString();
+    }
+
+    public bool CheckForMaxHP()
+    {
+        if(currentHealth < maxHealth)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }    
+    public bool CheckForMaxEnergy()
+    {
+        if(currentEnergy < maxEnergy)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     public void IncreaseHP(int hp)
     {
-        if(currentHealth < maxHealth)
+        if(!CheckForMaxHP())
+        {
             currentHealth += hp;
+            Debug.Log("CurrentHealth: " + currentHealth);
+            if (currentHealth > maxHealth)
+                currentHealth = maxHealth;
+            healthBar.SetHealth(currentHealth);
+        }
+        else
+        {
+            Debug.Log("HP full");
+        }
+            
+        
     }
 
     public void TakeDamage(int damage)
@@ -93,6 +135,23 @@ public class PlayerHealthXpSystem : MonoBehaviour
     {
         currentEnergy -= energy;
         energyBar.SetEnergy(currentEnergy);
+    }
+
+    public void IncreaseEnergy(int energy)
+    {
+        if (!CheckForMaxEnergy())
+        {
+            currentEnergy += energy;
+            if (currentEnergy > maxEnergy)
+                currentEnergy = maxEnergy;
+            energyBar.SetEnergy(currentEnergy);
+        }
+        else
+        {
+            Debug.Log("Energy full");
+        }
+
+
     }
 
     public void IncreaseXP(int xp)

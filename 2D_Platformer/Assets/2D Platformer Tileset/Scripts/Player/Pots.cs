@@ -22,10 +22,12 @@ public class Pots : MonoBehaviour
     public GameObject cooldownPotF;
     public GameObject energyPotF;
 
+    PlayerHealthXpSystem myPlayerHealthXpSystem;
+
     // Start is called before the first frame update
     void Start()
     {
-           
+        myPlayerHealthXpSystem = FindObjectOfType<PlayerHealthXpSystem>();
     }
 
     // Update is called once per frame
@@ -65,7 +67,8 @@ public class Pots : MonoBehaviour
     }
     public void UseHealthpot()
     {
-        --healthPotNumb;
+        if(healthPotNumb > 0 && !myPlayerHealthXpSystem.CheckForMaxHP())
+            --healthPotNumb;
     }
 
     public void IncreaseDamageBoosPot()
@@ -74,7 +77,8 @@ public class Pots : MonoBehaviour
     }
     public void UseDamageBoosPot()
     {
-        --damageBoosPotNumb;
+        if(damageBoosPotNumb >0)
+            --damageBoosPotNumb;
     }
 
     public void IncreaseCooldownPot()
@@ -83,7 +87,8 @@ public class Pots : MonoBehaviour
     }
     public void UseCooldownPot()
     {
-        --cooldownPotNumb;
+        if(cooldownPotNumb>0)
+            --cooldownPotNumb;
     }
 
     public void IncreaseEnergyPot()
@@ -92,6 +97,7 @@ public class Pots : MonoBehaviour
     }
     public void UseEnergyPot()
     {
-        --energyPotNumb;
+        if(energyPotNumb>0 && !myPlayerHealthXpSystem.CheckForMaxEnergy())
+            --energyPotNumb;
     }
 }

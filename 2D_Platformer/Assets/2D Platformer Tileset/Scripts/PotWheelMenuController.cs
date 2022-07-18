@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,47 +6,107 @@ using UnityEngine.UI;
 
 public class PotWheelMenuController : MonoBehaviour
 {
+    public Animator myAnim;
+    public static int potID;
+    private bool potWheelSelected = false;
+    
+    Pots myPot;
+    PlayerHealthXpSystem myplayerHealthXpSystem;
 
-    public int Id;
-    private Animator myAnimator;
-    public string itemName;
-    public Image selectedItem;
-    private bool selected = false;
-    public Sprite icon;
+    public GameObject cooldownPotActive;
+    public Image cooldownImage;
+    private bool cooldownPotIsActive;
+    float nextCooldownPot = 0f;
+    float cooldownPotCooldown = 10f;
 
 
-    // Start is called before the first frame update
+
+
+    public GameObject damageBoostPotActive;
+    private bool damageBoostPotIsActive;
+    float nextdamageBoostPot = 0f;
+
+
+
     void Start()
     {
-        myAnimator = GetComponent<Animator>();
+        myplayerHealthXpSystem = FindObjectOfType<PlayerHealthXpSystem>();
+        myPot = FindObjectOfType<Pots>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (selected)
+
+        OpenMenuWheel();
+        UsePots();
+        CooldownPotActive();
+
+    }
+
+    private void CooldownPotActive()
+    {
+        if (!cooldownPotIsActive) return;
+        if(Time.time >= nextCooldownPot && !cooldownPotIsActive)
         {
-            selectedItem.sprite = icon;
+            cooldownPotIsActive = true;
+            cooldownImage.fillAmount = 0;
+            nextCooldownPot = Time.time;
+        }
+
+        if (cooldownPotIsActive)
+        {
+            cooldownImage.fillAmount = cooldownImage.fillAmount + (1 / cooldownPotCooldown * Time.deltaTime);
+
+            if(cooldownImage.fillAmount == 1)
+            {
+                cooldownPotActive.SetActive(false);
+                cooldownPotIsActive = false;
+            }
         }
     }
 
-    public void Selected()
+    private void OpenMenuWheel()
     {
-        selected = true;
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            potWheelSelected = !potWheelSelected;
+        }
+
+        if (potWheelSelected)
+        {
+            myAnim.SetBool("OpenWeaponWheel", true);
+        }
+        else
+        {
+            myAnim.SetBool("OpenWeaponWheel", false);
+        }
     }
 
-    public void DeSelected()
+    private void UsePots()
     {
-        selected = false;
-    }
+        switch (potID)
+        {
+            case 1:
+                myPot.UseHealthpot();
+                myplayerHealthXpSystem.IncreaseHP(20);
+                break;
+            case 2:
+                myPot.UseDamageBoosPot(); //UseEnergyPot
+                damageBoostPotIsActive = true;
+                damageBoostPotActive.SetActive(damageBoostPotIsActive);
+                break;
+            case 3:
+                myPot.UseCooldownPot();
+                cooldownPotIsActive = true;
+                cooldownPotActive.SetActive(cooldownPotIsActive);
+                break;
+            case 4:
+                myPot.UseEnergyPot(); //UseDamageBoostPot
+                myplayerHealthXpSystem.IncreaseEnergy(20);
+                break;
+        }
+        potID = 0;
 
-    public void HoverEnter()
-    {
-        myAnimator.SetBool("hover", true);
-    }
-
-    public void HoverExit()
-    {
-        myAnimator.SetBool("hover", false);
     }
 }

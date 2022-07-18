@@ -13,7 +13,9 @@ public class PotsSystem : MonoBehaviour
 
     Pots pot;
 
-    bool collectedPot = false;
+    
+
+    bool collectedPot = true;
 
 
     // Start is called before the first frame update
@@ -21,13 +23,26 @@ public class PotsSystem : MonoBehaviour
     {
         pot = FindObjectOfType<Pots>();
         GetChildren();
+        GenerateRandomPot();
+
+        //Debug.Log(currentPot.name);
+
+
+    }
+    void Update()
+    {
+
+    }
+
+    private void GenerateRandomPot()
+    {
         int randomNumb = Random.Range(1, 5);
 
         switch (randomNumb)
         {
             case 1:
                 //currentPot = healthPot;
-                setCurrentPot(healthPot, true,false,false,false);
+                setCurrentPot(healthPot, true, false, false, false);
                 break;
             case 2:
                 //currentPot = damageBoostPot;
@@ -42,22 +57,10 @@ public class PotsSystem : MonoBehaviour
                 setCurrentPot(energyPot, false, false, false, true);
                 break;
         }
-
-        Debug.Log(currentPot.name);
-        
-
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        UsePots();
-    }
 
-    private void UsePots()
-    {
-        //if()
-    }
 
     private void GetChildren()
     {
@@ -78,30 +81,36 @@ public class PotsSystem : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.name != "Player" && collectedPot) return;
-        collectedPot = true;
+        if (col.name != "Player" ) return;
 
-        switch (currentPot.name)
+        if (collectedPot)
         {
-            case "Health":
-                //currentPot = healthPot;
-                pot.IncreaseHealthpot();
-                break;
-            case "Damageboost":
-                //currentPot = damageBoostPot;
-                pot.IncreaseDamageBoosPot();
-                break;
-            case "Cooldown":
-                //currentPot = cooldownPot;
-                pot.IncreaseCooldownPot();
-                break;
-            case "Energy":
-                //currentPot = energyPot;
-                pot.IncreaseEnergyPot();
-                break;
 
+            switch (currentPot.name)
+            {
+                case "Health":
+                    //currentPot = healthPot;
+                    pot.IncreaseHealthpot();
+                    break;
+                case "Damageboost":
+                    //currentPot = damageBoostPot;
+                    pot.IncreaseDamageBoosPot();
+                    break;
+                case "Cooldown":
+                    //currentPot = cooldownPot;
+                    pot.IncreaseCooldownPot();
+                    break;
+                case "Energy":
+                    //currentPot = energyPot;
+                    pot.IncreaseEnergyPot();
+                    break;
+
+            }
+
+            Destroy(gameObject);
         }
-        Destroy(gameObject);
+
+        collectedPot = false;
     }
 
 
