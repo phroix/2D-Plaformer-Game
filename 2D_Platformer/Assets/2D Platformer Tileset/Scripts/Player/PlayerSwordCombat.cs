@@ -26,9 +26,11 @@ public class PlayerSwordCombat : MonoBehaviour
 
     public float qAttackRange = 0.5f;
     public float qAttackRate = 2f;
-    
+    public int qEnergyCost = 30;
+
     public float cooldownQTime = 5f;
     float nextQAttackTime = 0f;
+    
     
     bool isQCooldown = false;
 
@@ -40,7 +42,9 @@ public class PlayerSwordCombat : MonoBehaviour
     
     public float eAttackRange = 0.5f;
     public float eAttackRate = 2f;
-    
+    public int eEnergyCost = 20;
+
+
     public float cooldownETime = 3f;
     float nextEAttackTime = 0f;
 
@@ -50,6 +54,7 @@ public class PlayerSwordCombat : MonoBehaviour
     GameObject parentObject;
     Rigidbody2D parentRigidbody2D;
     BoxCollider2D parentBoxCollider2D;
+    PlayerHealthXpSystem myPlayerHealthXpSystem;
 
     //Component Gameobjects
     Animator myAnimator;
@@ -64,6 +69,7 @@ public class PlayerSwordCombat : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        myPlayerHealthXpSystem = FindObjectOfType<PlayerHealthXpSystem>();
         myAnimator = gameObject.GetComponent<Animator>();
         qAbilityImage.fillAmount = 0;
         eAbilityImage.fillAmount = 0;
@@ -114,6 +120,8 @@ public class PlayerSwordCombat : MonoBehaviour
     //Special attack with cooldown, activate with Key Q
     private void QAttack()
     {
+        if (myPlayerHealthXpSystem.GetCurrentEnergy() < qEnergyCost && !isQCooldown) return;
+
         //Make Player stand still while attacking
         if (Time.time <= nextMove)
         {
@@ -122,9 +130,10 @@ public class PlayerSwordCombat : MonoBehaviour
 
         if (Time.time >= nextQAttackTime)
         {
-            if (Input.GetKeyDown(KeyCode.Q) && isQCooldown == false && parentBoxCollider2D.IsTouchingLayers(LayerMask.GetMask("Foreground")))
+            if (Input.GetKeyDown(KeyCode.Q) && !isQCooldown && parentBoxCollider2D.IsTouchingLayers(LayerMask.GetMask("Foreground")))
             {
                 Debug.Log("Q pressed");
+                myPlayerHealthXpSystem.DecreaseEnergy(qEnergyCost);
                 //Cooldown
                 nextQAttackTime = Time.time + cooldownQTime;
                 isQCooldown = true;
@@ -164,6 +173,8 @@ public class PlayerSwordCombat : MonoBehaviour
     //Special attack with cooldown, activate with Key E
     private void EAttack()
     {
+        if (myPlayerHealthXpSystem.GetCurrentEnergy() < eEnergyCost && !isECooldown) return;
+        
         Debug.Log("E ATTACK");
         //Make Player stand still while attacking
         if (Time.time <= nextMove)
@@ -176,6 +187,7 @@ public class PlayerSwordCombat : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E) && isECooldown == false && parentBoxCollider2D.IsTouchingLayers(LayerMask.GetMask("Foreground")))
             {
                 Debug.Log("E pressed");
+                myPlayerHealthXpSystem.DecreaseEnergy(eEnergyCost);
                 //Cooldown
                 nextEAttackTime = Time.time + cooldownETime;
                 isECooldown = true;

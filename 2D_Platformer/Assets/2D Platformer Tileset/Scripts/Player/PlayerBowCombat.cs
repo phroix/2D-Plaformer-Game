@@ -28,6 +28,7 @@ public class PlayerBowCombat : MonoBehaviour
     public float qAttackRange = 0.5f;
     public float qAttackRate = 2f;
     public float cooldownQTime = 5f;
+    public int qEnergCost = 30;
     float nextQAttackTime = 0f;
     bool isQCooldown = false;
 
@@ -38,6 +39,7 @@ public class PlayerBowCombat : MonoBehaviour
     public float eAttackRange = 0.5f;
     public float eAttackRate = 2f;
     public float cooldownETime = 3f;
+    public int eEnergCost = 20;
     float nextEAttackTime = 0f;
     bool isECooldown = false;
 
@@ -51,6 +53,9 @@ public class PlayerBowCombat : MonoBehaviour
     bool localScalel;
     float xspeed;
 
+    PlayerHealthXpSystem myPlayerHealthXpSystem;
+
+
     private void Awake()
     {
         parentObject = gameObject.transform.parent.gameObject;
@@ -60,6 +65,7 @@ public class PlayerBowCombat : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        myPlayerHealthXpSystem = FindObjectOfType<PlayerHealthXpSystem>();
         myAnimator = GetComponent<Animator>();
         qAbilityImage.fillAmount = 0;
         eAbilityImage.fillAmount = 0;
@@ -115,6 +121,8 @@ public class PlayerBowCombat : MonoBehaviour
 
     private void QAttack()
     {
+        if (myPlayerHealthXpSystem.GetCurrentEnergy() < qEnergCost && !isQCooldown) return;
+
         if (Time.time <= nextMove)
         {
             parentRigidbody2D.bodyType = RigidbodyType2D.Static;
@@ -125,6 +133,7 @@ public class PlayerBowCombat : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Q) && isQCooldown == false)
             {
                 //Make Player stand still
+                myPlayerHealthXpSystem.DecreaseEnergy(qEnergCost);
                 isQCooldown = true;
                 qAbilityImage.fillAmount = 1;
                 nextMove = Time.time + (1f / qAttackRate);
@@ -154,6 +163,8 @@ public class PlayerBowCombat : MonoBehaviour
 
     private void EAttack()
     {
+        if (myPlayerHealthXpSystem.GetCurrentEnergy() < eEnergCost && !isECooldown) return;
+
         if (Time.time <= nextMove)
         {
             parentRigidbody2D.bodyType = RigidbodyType2D.Static;
@@ -164,6 +175,7 @@ public class PlayerBowCombat : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 //Make Player stand still
+                myPlayerHealthXpSystem.DecreaseEnergy(eEnergCost);
                 isECooldown = true;
                 eAbilityImage.fillAmount = 1;
                 nextMove = Time.time + (1f / eAttackRate);
