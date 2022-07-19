@@ -58,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GetCurrentWeapon();
+        SetCurrentWeapon();
         Move();
         FlipSprite();
         Jump();
@@ -86,7 +86,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     //Gets current equipped weapon
-    private void GetCurrentWeapon()
+    private void SetCurrentWeapon()
     {
         
         if (Input.GetKeyDown(KeyCode.Alpha1))//Check if 1 is pressed
@@ -107,6 +107,11 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if (childAnimator != null) childAnimator = currentWeapon.GetComponent<Animator>(); //gets component of child Animator
+    }
+
+    public GameObject GetCurrentWeapon()
+    {
+        return currentWeapon;
     }
 
     private void SetWeaponActive(bool b1, bool b2, bool b3, GameObject g)

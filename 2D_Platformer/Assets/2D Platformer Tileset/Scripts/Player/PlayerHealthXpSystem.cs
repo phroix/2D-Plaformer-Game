@@ -7,14 +7,14 @@ using UnityEngine.UI;
 public class PlayerHealthXpSystem : MonoBehaviour
 {
     [Header("Player Health")]
-    public int maxHealth = 120;
+    public int maxHealth = 100;
     public int currentHealth;
 
     public HealthBar healthBar;
     public Text healthText;
 
     [Header("Player Energy")]
-    public int maxEnergy = 60;
+    public int maxEnergy = 50;
     public int currentEnergy;
 
     public EnergyBar energyBar;
@@ -55,23 +55,22 @@ public class PlayerHealthXpSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("CurrentLevel: " + currentLevel);
         DisplayBars();
 
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            TakeDamage(10);
-        }
+        //if (Input.GetKeyDown(KeyCode.G))
+        //{
+        //    TakeDamage(10);
+        //}
 
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            DecreaseEnergy(10);
-        }
+        //if (Input.GetKeyDown(KeyCode.H))
+        //{
+        //    DecreaseEnergy(10);
+        //}
 
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            IncreaseXP(150);
-        }
+        //if (Input.GetKeyDown(KeyCode.J))
+        //{
+        //    IncreaseXP(150);
+        //}
 
     }
 
@@ -133,6 +132,7 @@ public class PlayerHealthXpSystem : MonoBehaviour
 
     public void DecreaseEnergy(int energy)
     {
+        if (energy <= 0) return;
         currentEnergy -= energy;
         energyBar.SetEnergy(currentEnergy);
     }
@@ -196,10 +196,26 @@ public class PlayerHealthXpSystem : MonoBehaviour
         if(currentLevel != 8)
         {
             ++currentLevel;
+            maxHealth += 20;
+            currentHealth = maxHealth;
+            healthBar.SetMaxHealth(maxHealth);
+            maxEnergy += 10;
+            currentEnergy = maxEnergy;
+            energyBar.SetMaxEnergy(maxEnergy);
         }
         else
         {
             reachedMaxLevel = true;
         }
+    }
+
+    public int GetCurrentLeve()
+    {
+        return currentLevel;
+    }
+
+    public int GetCurrentEnergy()
+    {
+        return currentEnergy;
     }
 }
