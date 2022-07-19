@@ -224,4 +224,24 @@ public class PlayerBowCombat : MonoBehaviour
     //{
     //    Gizmos.DrawWireSphere(shotpoint.position, 0.1f);
     //}
+
+    public float GetQCooldown()
+    {
+        return cooldownQTime;
+    }
+    public float GetECooldown()
+    {
+        return cooldownETime;
+    }
+
+    public void SetQCooldown(float q)
+    {
+        cooldownQTime = q;
+    }
+    public void SetECooldown(float e)
+    {
+        cooldownETime = e;
+    }
+
+
 }
