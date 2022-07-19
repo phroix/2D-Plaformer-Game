@@ -33,12 +33,38 @@ public class PlayerHealthXpSystem : MonoBehaviour
     public Text xpText;
     public Text levelText;
 
+    PlayerDamageSystem myPlayerDamageSystem;
+
     // Start is called before the first frame update
     void Start()
     {
         GetBars();
+
+        myPlayerDamageSystem = GetComponent<PlayerDamageSystem>();
     }
 
+
+    // Update is called once per frame
+    void Update()
+    {
+        DisplayBars();
+
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            TakeDamage(10);
+        }
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            DecreaseEnergy(10);
+        }
+
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            IncreaseXP(150);
+        }
+
+    }
     private void GetBars()
     {
         currentHealth = maxHealth;
@@ -50,28 +76,6 @@ public class PlayerHealthXpSystem : MonoBehaviour
         currentLevel = 0;
         xpBar.SetMaxXP(maxEachLevelXp);
         xpBar.SetXP(currentXP);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        DisplayBars();
-
-        //if (Input.GetKeyDown(KeyCode.G))
-        //{
-        //    TakeDamage(10);
-        //}
-
-        //if (Input.GetKeyDown(KeyCode.H))
-        //{
-        //    DecreaseEnergy(10);
-        //}
-
-        //if (Input.GetKeyDown(KeyCode.J))
-        //{
-        //    IncreaseXP(150);
-        //}
-
     }
 
     private void DisplayBars()
@@ -202,6 +206,8 @@ public class PlayerHealthXpSystem : MonoBehaviour
             maxEnergy += 10;
             currentEnergy = maxEnergy;
             energyBar.SetMaxEnergy(maxEnergy);
+
+            myPlayerDamageSystem.IncreaseDmgPerLevel(currentLevel);
         }
         else
         {

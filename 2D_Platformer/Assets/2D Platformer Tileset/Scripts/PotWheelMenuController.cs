@@ -12,6 +12,9 @@ public class PotWheelMenuController : MonoBehaviour
     
     Pots myPot;
     PlayerHealthXpSystem myplayerHealthXpSystem;
+    PlayerBowCombat myPlayerBowCombat;
+    PlayerSwordCombat myPlayerSwordCombat;
+    PlayerDamageSystem myPlayerDamageSystem;
 
     public GameObject cooldownPotActive;
     public Image cooldownImage;
@@ -27,10 +30,16 @@ public class PotWheelMenuController : MonoBehaviour
     float damageBoostPotCooldown = 10f;
 
 
+    int bowCurrentDmg;
+    int swordCurrentDmg;
+
 
     void Start()
     {
         myplayerHealthXpSystem = FindObjectOfType<PlayerHealthXpSystem>();
+        myPlayerBowCombat = FindObjectOfType<PlayerBowCombat>();
+        myPlayerSwordCombat = FindObjectOfType<PlayerSwordCombat>();
+        myPlayerDamageSystem = FindObjectOfType<PlayerDamageSystem>();
         myPot = FindObjectOfType<Pots>();
     }
     // Update is called once per frame
@@ -46,6 +55,7 @@ public class PotWheelMenuController : MonoBehaviour
     private void DamageBoostPotActive()
     {
         if (!damageBoostPotIsActive) return;
+
         if (Time.time >= nextdamageBoostPot && !damageBoostPotIsActive)
         {
             damageBoostPotIsActive = true;
@@ -55,13 +65,17 @@ public class PotWheelMenuController : MonoBehaviour
 
         if (damageBoostPotIsActive)
         {
-            Debug.Log("Fill image");
+            myPlayerDamageSystem.SetBowCurrentDMG(bowCurrentDmg + 10);
+            myPlayerDamageSystem.SetSwordCurrentDMG(swordCurrentDmg + 15);
+
             damageBoostImage.fillAmount = damageBoostImage.fillAmount + (1 / damageBoostPotCooldown * Time.deltaTime);
 
             if (damageBoostImage.fillAmount == 1)
             {
                 damageBoostImage.fillAmount = 0;
                 damageBoostPotIsActive = false;
+                myPlayerDamageSystem.SetBowCurrentDMG(bowCurrentDmg);
+                myPlayerDamageSystem.SetSwordCurrentDMG(swordCurrentDmg);
             }
         }
 
@@ -80,13 +94,23 @@ public class PotWheelMenuController : MonoBehaviour
 
         if (cooldownPotIsActive)
         {
-            Debug.Log("Fill image");
+            myPlayerBowCombat.SetQCooldown(3.5f);
+            myPlayerBowCombat.SetECooldown(2f);
+
+            myPlayerSwordCombat.SetQCooldown(3.5f);
+            myPlayerSwordCombat.SetECooldown(2f);
+
             cooldownImage.fillAmount = cooldownImage.fillAmount + (1 / cooldownPotCooldown * Time.deltaTime);
 
             if(cooldownImage.fillAmount == 1)
             {
                 cooldownImage.fillAmount = 0;
                 cooldownPotIsActive = false;
+                myPlayerBowCombat.SetQCooldown(5f);
+                myPlayerBowCombat.SetECooldown(3f);
+
+                myPlayerSwordCombat.SetQCooldown(5f);
+                myPlayerSwordCombat.SetECooldown(3f);
             }
         }
 
@@ -123,6 +147,8 @@ public class PotWheelMenuController : MonoBehaviour
             case 2:
                 if (!damageBoostPotIsActive)
                 {
+                    bowCurrentDmg = myPlayerDamageSystem.GetBowCurrentDMG();
+                    swordCurrentDmg = myPlayerDamageSystem.GetSwordCurrentDMG();
                     myPot.UseDamageBoosPot(); //UseEnergyPot
                     damageBoostPotIsActive = true;
                 }
