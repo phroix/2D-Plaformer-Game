@@ -100,4 +100,14 @@ public class Pots : MonoBehaviour
         if(energyPotNumb>0 && !myPlayerHealthXpSystem.CheckForMaxEnergy())
             --energyPotNumb;
     }
+
+    public int GetDamageBoosPotNumb()
+    {
+        return damageBoosPotNumb;
+    }
+
+    public int GetCooldownPotNumb()
+    {
+        return cooldownPotNumb;
+    }
 }

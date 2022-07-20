@@ -49,17 +49,17 @@ public class PlayerHealthXpSystem : MonoBehaviour
     {
         DisplayBars();
 
-        if (Input.GetKeyDown(KeyCode.G))
+        if (Input.GetKeyDown(KeyCode.N))
         {
             TakeDamage(10);
         }
 
-        if (Input.GetKeyDown(KeyCode.H))
+        if (Input.GetKeyDown(KeyCode.M))
         {
             DecreaseEnergy(10);
         }
 
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Input.GetKeyDown(KeyCode.B))
         {
             IncreaseXP(150);
         }

@@ -45,7 +45,6 @@ public class PotWheelMenuController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         OpenMenuWheel();
         UsePots();
         CooldownPotActive();
@@ -120,7 +119,7 @@ public class PotWheelMenuController : MonoBehaviour
     private void OpenMenuWheel()
     {
         Debug.Log(potWheelSelected);
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.G))
         {
             potWheelSelected = !potWheelSelected;
         }
@@ -146,7 +145,7 @@ public class PotWheelMenuController : MonoBehaviour
                 myplayerHealthXpSystem.IncreaseHP(20);
                 break;
             case 2:
-                if (!damageBoostPotIsActive)
+                if (!damageBoostPotIsActive && myPot.GetDamageBoosPotNumb() > 0)
                 {
                     bowCurrentDmg = myPlayerDamageSystem.GetBowCurrentDMG();
                     swordCurrentDmg = myPlayerDamageSystem.GetSwordCurrentDMG();
@@ -155,7 +154,7 @@ public class PotWheelMenuController : MonoBehaviour
                 }
                 break;
             case 3:
-                if (!cooldownPotIsActive)
+                if (!cooldownPotIsActive && myPot.GetCooldownPotNumb() > 0 )
                 {
                     myPot.UseCooldownPot();
                     cooldownPotIsActive = true;
