@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,11 @@ public class PlayerCoinController : MonoBehaviour
     public Text coinText;
     public Text coinTextShadder;
 
+
+    int currentKeys = 0;
+    public Text keyText;
+    public Text keyTextShadder;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +27,13 @@ public class PlayerCoinController : MonoBehaviour
     void Update()
     {
         DisplayCurrentCoins();
+        DisplayCurrentKeys();
+    }
+
+    private void DisplayCurrentKeys()
+    {
+        keyText.text = currentKeys.ToString();
+        keyTextShadder.text = currentKeys.ToString();
     }
 
     public void DisplayCurrentCoins()
@@ -34,6 +47,20 @@ public class PlayerCoinController : MonoBehaviour
         ++currentCoin;
     }
 
+    public void IncreaseCurrentKeys()
+    {
+        ++currentKeys;
+    }
+
+    public void DecreaseCurrentKeys()
+    {
+        --currentKeys;
+    }
+
+    public int GetCurrentKeys()
+    {
+        return currentKeys;
+    }
 
 
 }
