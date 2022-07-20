@@ -55,6 +55,7 @@ public class PlayerSwordCombat : MonoBehaviour
     Rigidbody2D parentRigidbody2D;
     BoxCollider2D parentBoxCollider2D;
     PlayerHealthXpSystem myPlayerHealthXpSystem;
+    PotWheelMenuController myPotWheelMenuController;
 
     //Component Gameobjects
     Animator myAnimator;
@@ -71,6 +72,7 @@ public class PlayerSwordCombat : MonoBehaviour
     {
         myPlayerHealthXpSystem = FindObjectOfType<PlayerHealthXpSystem>();
         myAnimator = gameObject.GetComponent<Animator>();
+        myPotWheelMenuController = FindObjectOfType<PotWheelMenuController>();
         qAbilityImage.fillAmount = 0;
         eAbilityImage.fillAmount = 0;
     }
@@ -93,7 +95,7 @@ public class PlayerSwordCombat : MonoBehaviour
 
         if (Time.time >= nextAttackTime)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0) && parentBoxCollider2D.IsTouchingLayers(LayerMask.GetMask("Foreground")))
+            if (Input.GetKeyDown(KeyCode.Mouse0) && parentBoxCollider2D.IsTouchingLayers(LayerMask.GetMask("Foreground")) && !myPotWheelMenuController.GetPotWheelSelected())
             {
                 //Make Player stand still
                 nextMove = Time.time + (1f / normalAttackRate);
@@ -130,9 +132,9 @@ public class PlayerSwordCombat : MonoBehaviour
 
         if (Time.time >= nextQAttackTime)
         {
-            if (Input.GetKeyDown(KeyCode.Q) && !isQCooldown && parentBoxCollider2D.IsTouchingLayers(LayerMask.GetMask("Foreground")))
+            if (Input.GetKeyDown(KeyCode.Q) && !isQCooldown && parentBoxCollider2D.IsTouchingLayers(LayerMask.GetMask("Foreground")) && !myPotWheelMenuController.GetPotWheelSelected())
             {
-                Debug.Log("Q pressed");
+                //Debug.Log("Q pressed");
                 myPlayerHealthXpSystem.DecreaseEnergy(qEnergyCost);
                 //Cooldown
                 nextQAttackTime = Time.time + cooldownQTime;
@@ -175,18 +177,18 @@ public class PlayerSwordCombat : MonoBehaviour
     {
         if (myPlayerHealthXpSystem.GetCurrentEnergy() < eEnergyCost && !isECooldown) return;
         
-        Debug.Log("E ATTACK");
+        //Debug.Log("E ATTACK");
         //Make Player stand still while attacking
         if (Time.time <= nextMove)
         {
-            Debug.Log("RB Static");
+            //Debug.Log("RB Static");
             parentRigidbody2D.bodyType = RigidbodyType2D.Static;
         }
         if (Time.time >= nextEAttackTime)
         {
-            if (Input.GetKeyDown(KeyCode.E) && isECooldown == false && parentBoxCollider2D.IsTouchingLayers(LayerMask.GetMask("Foreground")))
+            if (Input.GetKeyDown(KeyCode.E) && isECooldown == false && parentBoxCollider2D.IsTouchingLayers(LayerMask.GetMask("Foreground")) && !myPotWheelMenuController.GetPotWheelSelected())
             {
-                Debug.Log("E pressed");
+                //Debug.Log("E pressed");
                 myPlayerHealthXpSystem.DecreaseEnergy(eEnergyCost);
                 //Cooldown
                 nextEAttackTime = Time.time + cooldownETime;
@@ -209,19 +211,19 @@ public class PlayerSwordCombat : MonoBehaviour
             }
             else
             {
-                Debug.Log("RB Dynamic");
+                //Debug.Log("RB Dynamic");
                 parentRigidbody2D.bodyType = RigidbodyType2D.Dynamic;
             }
         }
 
         if (isECooldown)//Qooldown image fillamount increase
         {
-            Debug.Log("Increase fillamount");
+            //Debug.Log("Increase fillamount");
             eAbilityImage.fillAmount = eAbilityImage.fillAmount - (1 / cooldownETime * Time.deltaTime);
 
             if (eAbilityImage.fillAmount == 0)
             {
-                Debug.Log("Incresing done");
+                //Debug.Log("Incresing done");
                 eAbilityImage.fillAmount = 0;
                 isECooldown = false;
             }

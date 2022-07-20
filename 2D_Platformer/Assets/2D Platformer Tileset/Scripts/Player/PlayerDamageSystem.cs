@@ -96,16 +96,16 @@ public class PlayerDamageSystem : MonoBehaviour
     {
         if (myPlayerMovement.GetCurrentWeapon().ToString() == "Sword (UnityEngine.GameObject)")
         {
-            Debug.Log("Sword active");
+            //Debug.Log("Sword active");
             dmgText.text = "DMG: " + swordCurrentDmg.ToString();
         }
         else if (myPlayerMovement.GetCurrentWeapon().ToString() == "Bow (UnityEngine.GameObject)")
         {
-            Debug.Log("Bow active");
+            //Debug.Log("Bow active");
             dmgText.text = "DMG: " + bowCurrentDmg.ToString();
         }else
         {
-            Debug.Log("Default active");
+            //Debug.Log("Default active");
             dmgText.text = "DMG: 0";
         }
     }

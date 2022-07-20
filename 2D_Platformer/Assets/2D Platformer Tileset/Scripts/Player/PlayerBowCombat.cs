@@ -54,6 +54,7 @@ public class PlayerBowCombat : MonoBehaviour
     float xspeed;
 
     PlayerHealthXpSystem myPlayerHealthXpSystem;
+    PotWheelMenuController myPotWheelMenuController;
 
 
     private void Awake()
@@ -67,6 +68,7 @@ public class PlayerBowCombat : MonoBehaviour
     {
         myPlayerHealthXpSystem = FindObjectOfType<PlayerHealthXpSystem>();
         myAnimator = GetComponent<Animator>();
+        myPotWheelMenuController = FindObjectOfType<PotWheelMenuController>();
         qAbilityImage.fillAmount = 0;
         eAbilityImage.fillAmount = 0;
     }
@@ -102,7 +104,7 @@ public class PlayerBowCombat : MonoBehaviour
 
         if (Time.time >= nextAttackTime)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            if (Input.GetKeyDown(KeyCode.Mouse0) && !myPotWheelMenuController.GetPotWheelSelected())
             {
                 //Make Player stand still
                 nextMove = Time.time + (1f / normalAttackRate);
@@ -130,7 +132,7 @@ public class PlayerBowCombat : MonoBehaviour
 
         if (Time.time >= nextQAttackTime)
         {
-            if (Input.GetKeyDown(KeyCode.Q) && isQCooldown == false)
+            if (Input.GetKeyDown(KeyCode.Q) && !isQCooldown && !myPotWheelMenuController.GetPotWheelSelected())
             {
                 //Make Player stand still
                 myPlayerHealthXpSystem.DecreaseEnergy(qEnergCost);
@@ -170,7 +172,7 @@ public class PlayerBowCombat : MonoBehaviour
             parentRigidbody2D.bodyType = RigidbodyType2D.Static;
         }
 
-        if (Time.time >= nextEAttackTime && isECooldown == false)
+        if (Time.time >= nextEAttackTime && !isECooldown && !myPotWheelMenuController.GetPotWheelSelected())
         {
             if (Input.GetKeyDown(KeyCode.E))
             {

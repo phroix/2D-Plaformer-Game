@@ -10,11 +10,6 @@ public class PotWheelMenuController : MonoBehaviour
     public static int potID;
     private bool potWheelSelected = false;
     
-    Pots myPot;
-    PlayerHealthXpSystem myplayerHealthXpSystem;
-    PlayerBowCombat myPlayerBowCombat;
-    PlayerSwordCombat myPlayerSwordCombat;
-    PlayerDamageSystem myPlayerDamageSystem;
 
     public GameObject cooldownPotActive;
     public Image cooldownImage;
@@ -33,6 +28,11 @@ public class PotWheelMenuController : MonoBehaviour
     int bowCurrentDmg;
     int swordCurrentDmg;
 
+    Pots myPot;
+    PlayerHealthXpSystem myplayerHealthXpSystem;
+    PlayerBowCombat myPlayerBowCombat;
+    PlayerSwordCombat myPlayerSwordCombat;
+    PlayerDamageSystem myPlayerDamageSystem;
 
     void Start()
     {
@@ -119,6 +119,7 @@ public class PotWheelMenuController : MonoBehaviour
 
     private void OpenMenuWheel()
     {
+        Debug.Log(potWheelSelected);
         if (Input.GetKeyDown(KeyCode.F))
         {
             potWheelSelected = !potWheelSelected;
@@ -167,5 +168,10 @@ public class PotWheelMenuController : MonoBehaviour
         }
         potID = 0;
 
+    }
+
+    public bool GetPotWheelSelected()
+    {
+        return potWheelSelected;
     }
 }
