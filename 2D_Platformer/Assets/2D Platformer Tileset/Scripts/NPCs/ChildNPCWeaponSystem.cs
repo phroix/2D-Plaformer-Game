@@ -21,11 +21,14 @@ public class ChildNPCWeaponSystem : MonoBehaviour
     bool arrowBuy = false;
 
     PlayerCoinController myPlayerCoinController;
+    PlayerBowCombat myPlayerBowCombat;
 
     // Start is called before the first frame update
     void Start()
     {
         myPlayerCoinController = FindObjectOfType<PlayerCoinController>();
+        myPlayerBowCombat = FindObjectOfType<PlayerBowCombat>();
+
         interactText.text = "Weapon Shop";
     }
 
@@ -90,6 +93,7 @@ public class ChildNPCWeaponSystem : MonoBehaviour
     {
         if (arrowCost <= myPlayerCoinController.GetCurrentCoins() )
         {
+            myPlayerBowCombat.IncreaseArrows();
             myPlayerCoinController.DecreaseCurrentCoins(arrowCost);
         }
     }

@@ -56,6 +56,7 @@ public class PlayerSwordCombat : MonoBehaviour
     BoxCollider2D parentBoxCollider2D;
     PlayerHealthXpSystem myPlayerHealthXpSystem;
     PotWheelMenuController myPotWheelMenuController;
+    ParentNPCSystem myParentNPCSystem;
 
     //Component Gameobjects
     Animator myAnimator;
@@ -73,6 +74,7 @@ public class PlayerSwordCombat : MonoBehaviour
         myPlayerHealthXpSystem = FindObjectOfType<PlayerHealthXpSystem>();
         myAnimator = gameObject.GetComponent<Animator>();
         myPotWheelMenuController = FindObjectOfType<PotWheelMenuController>();
+        myParentNPCSystem = FindObjectOfType<ParentNPCSystem>();
         qAbilityImage.fillAmount = 0;
         eAbilityImage.fillAmount = 0;
     }
@@ -95,7 +97,8 @@ public class PlayerSwordCombat : MonoBehaviour
 
         if (Time.time >= nextAttackTime)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0) && parentBoxCollider2D.IsTouchingLayers(LayerMask.GetMask("Foreground")) && !myPotWheelMenuController.GetPotWheelSelected())
+            if (Input.GetKeyDown(KeyCode.Mouse0) && parentBoxCollider2D.IsTouchingLayers(LayerMask.GetMask("Foreground")) && 
+                !myPotWheelMenuController.GetPotWheelSelected() && !myParentNPCSystem.GetCanvasOverlayOpened())
             {
                 //Make Player stand still
                 nextMove = Time.time + (1f / normalAttackRate);

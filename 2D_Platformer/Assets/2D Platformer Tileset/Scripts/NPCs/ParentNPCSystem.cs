@@ -46,4 +46,9 @@ public class ParentNPCSystem : MonoBehaviour
         canvasOverlayOpened = false;
         playerDetected = false;
     }
+
+    public bool GetCanvasOverlayOpened()
+    {
+        return canvasOverlayOpened;
+    }
 }
