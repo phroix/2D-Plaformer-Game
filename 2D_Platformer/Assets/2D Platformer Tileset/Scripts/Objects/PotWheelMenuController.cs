@@ -118,7 +118,6 @@ public class PotWheelMenuController : MonoBehaviour
 
     private void OpenMenuWheel()
     {
-        Debug.Log(potWheelSelected);
         if (Input.GetKeyDown(KeyCode.G))
         {
             potWheelSelected = !potWheelSelected;

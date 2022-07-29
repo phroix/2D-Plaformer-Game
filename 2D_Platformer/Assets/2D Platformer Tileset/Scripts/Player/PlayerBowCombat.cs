@@ -8,12 +8,14 @@ using UnityEngine.UI;
 public class PlayerBowCombat : MonoBehaviour
 {
     public GameObject arrow;
-    public float normalAttackDamage = 0f;
+    public Text amountArrowsText;
+    public int currentAmountArrows = 0;
 
     public Transform shotpoint;
     public LayerMask enemyLayers;
 
     [Header("Normal Attack")]
+    public float normalAttackDamage = 0f;
     public float normalArrowSpeed = 100000f;
     public float yAxis = .5f;
     public float normalAttackRange = 0.5f;
@@ -22,7 +24,6 @@ public class PlayerBowCombat : MonoBehaviour
     float nextMove = 0f;
 
     [Header("Q Attack")]
-    //public float qArrowSpeed = 100000f;
     public float qAttackDamage = 0f;
     public Image qAbilityImage;
     public float qAttackRange = 0.5f;
@@ -33,8 +34,8 @@ public class PlayerBowCombat : MonoBehaviour
     bool isQCooldown = false;
 
     [Header("E Attack")]
-    public GameObject firearrow;
     public float eAttackDamage = 0f;
+    public GameObject firearrow;
     public Image eAbilityImage;
     public float eAttackRange = 0.5f;
     public float eAttackRate = 2f;
@@ -55,6 +56,7 @@ public class PlayerBowCombat : MonoBehaviour
 
     PlayerHealthXpSystem myPlayerHealthXpSystem;
     PotWheelMenuController myPotWheelMenuController;
+    ParentNPCSystem myParentNPCSystem;
 
 
     private void Awake()
@@ -69,6 +71,7 @@ public class PlayerBowCombat : MonoBehaviour
         myPlayerHealthXpSystem = FindObjectOfType<PlayerHealthXpSystem>();
         myAnimator = GetComponent<Animator>();
         myPotWheelMenuController = FindObjectOfType<PotWheelMenuController>();
+        myParentNPCSystem = FindObjectOfType<ParentNPCSystem>();
         qAbilityImage.fillAmount = 0;
         eAbilityImage.fillAmount = 0;
     }
@@ -80,6 +83,12 @@ public class PlayerBowCombat : MonoBehaviour
         NormalAttack();
         QAttack();
         EAttack();
+        DisplayArrowAmount();
+    }
+
+    private void DisplayArrowAmount()
+    {
+        amountArrowsText.text = currentAmountArrows.ToString();
     }
 
     private void GetPlayerScale()
@@ -97,6 +106,8 @@ public class PlayerBowCombat : MonoBehaviour
 
     private void NormalAttack()
     {
+        if (myParentNPCSystem.GetCanvasOverlayOpened() || myPotWheelMenuController.GetPotWheelSelected()) return;
+
         if (Time.time <= nextMove)
         {
             parentRigidbody2D.bodyType = RigidbodyType2D.Static;
@@ -104,12 +115,13 @@ public class PlayerBowCombat : MonoBehaviour
 
         if (Time.time >= nextAttackTime)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0) && !myPotWheelMenuController.GetPotWheelSelected())
+            if (Input.GetKeyDown(KeyCode.Mouse0) && currentAmountArrows > 0)
             {
                 //Make Player stand still
                 nextMove = Time.time + (1f / normalAttackRate);
 
                 //Play attack animation
+                DecreaseArrows(1);
                 myAnimator.SetTrigger("NormalAttack");          
 
                 nextAttackTime = Time.time + 1f / normalAttackRate;
@@ -132,7 +144,7 @@ public class PlayerBowCombat : MonoBehaviour
 
         if (Time.time >= nextQAttackTime)
         {
-            if (Input.GetKeyDown(KeyCode.Q) && !isQCooldown && !myPotWheelMenuController.GetPotWheelSelected())
+            if (Input.GetKeyDown(KeyCode.Q) && !isQCooldown && !myPotWheelMenuController.GetPotWheelSelected() && currentAmountArrows >= 3)
             {
                 //Make Player stand still
                 myPlayerHealthXpSystem.DecreaseEnergy(qEnergCost);
@@ -141,6 +153,7 @@ public class PlayerBowCombat : MonoBehaviour
                 nextMove = Time.time + (1f / qAttackRate);
 
                 //Play attack animation
+                DecreaseArrows(3);
                 myAnimator.SetTrigger("QAttack");
 
                 nextQAttackTime = Time.time + 1f / qAttackRate;
@@ -172,7 +185,7 @@ public class PlayerBowCombat : MonoBehaviour
             parentRigidbody2D.bodyType = RigidbodyType2D.Static;
         }
 
-        if (Time.time >= nextEAttackTime && !isECooldown && !myPotWheelMenuController.GetPotWheelSelected())
+        if (Time.time >= nextEAttackTime && !isECooldown && !myPotWheelMenuController.GetPotWheelSelected() && currentAmountArrows > 0)
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -181,6 +194,8 @@ public class PlayerBowCombat : MonoBehaviour
                 isECooldown = true;
                 eAbilityImage.fillAmount = 1;
                 nextMove = Time.time + (1f / eAttackRate);
+
+                DecreaseArrows(1);
 
                 //Play attack animation
                 myAnimator.SetTrigger("EAttack");
@@ -221,12 +236,6 @@ public class PlayerBowCombat : MonoBehaviour
         newArrow.GetComponent<Rigidbody2D>().velocity = new Vector2(xspeed * normalArrowSpeed, yAxis);
     }
 
-
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.DrawWireSphere(shotpoint.position, 0.1f);
-    //}
-
     public float GetQCooldown()
     {
         return cooldownQTime;
@@ -243,6 +252,30 @@ public class PlayerBowCombat : MonoBehaviour
     public void SetECooldown(float e)
     {
         cooldownETime = e;
+    }
+
+    public void IncreaseArrows()
+    {
+        ++currentAmountArrows;
+    }    
+    public void DecreaseArrows(int i)
+    {
+        currentAmountArrows -= i;
+    }
+
+    public void IncreaseNormalATK(int i)
+    {
+        normalAttackDamage += i;
+    }
+
+    public void IncreaseQATK(int i)
+    {
+        qAttackDamage += i;
+    }
+
+    public void IncreaseEATK(int i)
+    {
+        eAttackDamage += i;
     }
 
 

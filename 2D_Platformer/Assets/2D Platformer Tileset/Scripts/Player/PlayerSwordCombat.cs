@@ -56,6 +56,7 @@ public class PlayerSwordCombat : MonoBehaviour
     BoxCollider2D parentBoxCollider2D;
     PlayerHealthXpSystem myPlayerHealthXpSystem;
     PotWheelMenuController myPotWheelMenuController;
+    ParentNPCSystem myParentNPCSystem;
 
     //Component Gameobjects
     Animator myAnimator;
@@ -73,6 +74,7 @@ public class PlayerSwordCombat : MonoBehaviour
         myPlayerHealthXpSystem = FindObjectOfType<PlayerHealthXpSystem>();
         myAnimator = gameObject.GetComponent<Animator>();
         myPotWheelMenuController = FindObjectOfType<PotWheelMenuController>();
+        myParentNPCSystem = FindObjectOfType<ParentNPCSystem>();
         qAbilityImage.fillAmount = 0;
         eAbilityImage.fillAmount = 0;
     }
@@ -88,6 +90,8 @@ public class PlayerSwordCombat : MonoBehaviour
     //normal attack player activate with left mouse klick
     private void NormalAttack()
     {
+        if (myParentNPCSystem.GetCanvasOverlayOpened() || myPotWheelMenuController.GetPotWheelSelected()) return;
+
         if (Time.time <= nextMove)
         {
             parentRigidbody2D.bodyType = RigidbodyType2D.Static;
@@ -95,7 +99,7 @@ public class PlayerSwordCombat : MonoBehaviour
 
         if (Time.time >= nextAttackTime)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0) && parentBoxCollider2D.IsTouchingLayers(LayerMask.GetMask("Foreground")) && !myPotWheelMenuController.GetPotWheelSelected())
+            if (Input.GetKeyDown(KeyCode.Mouse0) && parentBoxCollider2D.IsTouchingLayers(LayerMask.GetMask("Foreground")))
             {
                 //Make Player stand still
                 nextMove = Time.time + (1f / normalAttackRate);
@@ -253,6 +257,21 @@ public class PlayerSwordCombat : MonoBehaviour
     public void SetECooldown(float e)
     {
         cooldownETime = e;
+    }
+
+    public void IncreaseNormalATK(int i)
+    {
+        normalAttackDamage += i;
+    }
+
+    public void IncreaseQATK(int i)
+    {
+        qAttackDamage += i;
+    }
+
+    public void IncreaseEATK(int i)
+    {
+        eAttackDamage += i;
     }
 
 }

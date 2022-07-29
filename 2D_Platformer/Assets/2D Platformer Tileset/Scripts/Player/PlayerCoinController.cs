@@ -47,6 +47,16 @@ public class PlayerCoinController : MonoBehaviour
         ++currentCoin;
     }
 
+    public void DecreaseCurrentCoins(int i)
+    {
+        currentCoin -= i;
+    }
+
+    public int GetCurrentCoins()
+    {
+        return currentCoin;
+    }
+
     public void IncreaseCurrentKeys()
     {
         ++currentKeys;

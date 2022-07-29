@@ -91,6 +91,15 @@ public class PlayerDamageSystem : MonoBehaviour
         bowCurrentDmg += extraBowDMG;
     }
 
+    public void IncreaseSwordDmgUpgrade(int dmg)
+    {
+        swordCurrentDmg += dmg;
+    }
+
+    public void IncreaseBowDmgUpgrade(int dmg)
+    {
+        bowCurrentDmg += dmg;
+    }
 
     private void DisplayDamage()
     {
