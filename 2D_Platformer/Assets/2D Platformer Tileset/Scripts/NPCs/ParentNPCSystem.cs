@@ -5,20 +5,23 @@ using UnityEngine;
 
 public class ParentNPCSystem : MonoBehaviour
 {
+    ChildNPCNormalSystem myChildNPCNormalSystem;
     public GameObject canvasOverlay;
     bool playerDetected = false;
-    bool canvasOverlayOpened = false;
+    static bool canvasOverlayOpened = false;
 
 
     // Start is called before the first frame update
     void Start()
     {
         canvasOverlay.SetActive(false);
+        myChildNPCNormalSystem = GetComponent<ChildNPCNormalSystem>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("ParentNPCSystem canvasOverlayOpened: " + canvasOverlayOpened);
         OpenCanvasOverlay();
     }
 
@@ -28,6 +31,8 @@ public class ParentNPCSystem : MonoBehaviour
         {
             canvasOverlayOpened = !canvasOverlayOpened;
             canvasOverlay.SetActive(true);
+            if(myChildNPCNormalSystem!= null) myChildNPCNormalSystem.GenerateRandomMessage();
+
         }
 
         if (!canvasOverlayOpened)

@@ -106,6 +106,8 @@ public class PlayerBowCombat : MonoBehaviour
 
     private void NormalAttack()
     {
+        if (myParentNPCSystem.GetCanvasOverlayOpened() || myPotWheelMenuController.GetPotWheelSelected()) return;
+
         if (Time.time <= nextMove)
         {
             parentRigidbody2D.bodyType = RigidbodyType2D.Static;
@@ -113,8 +115,7 @@ public class PlayerBowCombat : MonoBehaviour
 
         if (Time.time >= nextAttackTime)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0) && !myPotWheelMenuController.GetPotWheelSelected() && 
-                !myParentNPCSystem.GetCanvasOverlayOpened() && currentAmountArrows > 0)
+            if (Input.GetKeyDown(KeyCode.Mouse0) && currentAmountArrows > 0)
             {
                 //Make Player stand still
                 nextMove = Time.time + (1f / normalAttackRate);

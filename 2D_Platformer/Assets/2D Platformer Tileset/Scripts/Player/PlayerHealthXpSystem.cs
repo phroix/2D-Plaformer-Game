@@ -215,6 +215,11 @@ public class PlayerHealthXpSystem : MonoBehaviour
         }
     }
 
+    public bool GetReachedMaxLevel()
+    {
+        return reachedMaxLevel;
+    }
+
     public int GetCurrentLeve()
     {
         return currentLevel;

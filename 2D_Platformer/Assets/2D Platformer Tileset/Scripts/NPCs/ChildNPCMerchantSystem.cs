@@ -2,9 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ChildNPCMerchantSystem : MonoBehaviour
 {
+    public Text interactText;
+
     Pots myPots;
     PlayerCoinController myPlayerCoinController;
     PlayerBowCombat myPlayerBowCombat;
@@ -33,6 +36,7 @@ public class ChildNPCMerchantSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        interactText.text = "Item Shop";
         myPots = FindObjectOfType<Pots>();
         myPlayerCoinController = FindObjectOfType<PlayerCoinController>();
         myPlayerBowCombat = FindObjectOfType<PlayerBowCombat>();

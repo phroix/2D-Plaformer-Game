@@ -90,6 +90,8 @@ public class PlayerSwordCombat : MonoBehaviour
     //normal attack player activate with left mouse klick
     private void NormalAttack()
     {
+        if (myParentNPCSystem.GetCanvasOverlayOpened() || myPotWheelMenuController.GetPotWheelSelected()) return;
+
         if (Time.time <= nextMove)
         {
             parentRigidbody2D.bodyType = RigidbodyType2D.Static;
@@ -97,8 +99,7 @@ public class PlayerSwordCombat : MonoBehaviour
 
         if (Time.time >= nextAttackTime)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0) && parentBoxCollider2D.IsTouchingLayers(LayerMask.GetMask("Foreground")) && 
-                !myPotWheelMenuController.GetPotWheelSelected() && !myParentNPCSystem.GetCanvasOverlayOpened())
+            if (Input.GetKeyDown(KeyCode.Mouse0) && parentBoxCollider2D.IsTouchingLayers(LayerMask.GetMask("Foreground")))
             {
                 //Make Player stand still
                 nextMove = Time.time + (1f / normalAttackRate);
