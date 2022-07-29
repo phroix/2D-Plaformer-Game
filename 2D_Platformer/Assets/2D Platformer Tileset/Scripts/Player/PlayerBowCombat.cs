@@ -10,12 +10,12 @@ public class PlayerBowCombat : MonoBehaviour
     public GameObject arrow;
     public Text amountArrowsText;
     public int currentAmountArrows = 0;
-    public float normalAttackDamage = 0f;
 
     public Transform shotpoint;
     public LayerMask enemyLayers;
 
     [Header("Normal Attack")]
+    public float normalAttackDamage = 0f;
     public float normalArrowSpeed = 100000f;
     public float yAxis = .5f;
     public float normalAttackRange = 0.5f;
@@ -34,8 +34,8 @@ public class PlayerBowCombat : MonoBehaviour
     bool isQCooldown = false;
 
     [Header("E Attack")]
-    public GameObject firearrow;
     public float eAttackDamage = 0f;
+    public GameObject firearrow;
     public Image eAbilityImage;
     public float eAttackRange = 0.5f;
     public float eAttackRate = 2f;
@@ -260,6 +260,21 @@ public class PlayerBowCombat : MonoBehaviour
     public void DecreaseArrows(int i)
     {
         currentAmountArrows -= i;
+    }
+
+    public void IncreaseNormalATK(int i)
+    {
+        normalAttackDamage += i;
+    }
+
+    public void IncreaseQATK(int i)
+    {
+        qAttackDamage += i;
+    }
+
+    public void IncreaseEATK(int i)
+    {
+        eAttackDamage += i;
     }
 
 

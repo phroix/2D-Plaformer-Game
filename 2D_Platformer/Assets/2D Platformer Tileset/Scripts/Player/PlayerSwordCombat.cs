@@ -258,5 +258,20 @@ public class PlayerSwordCombat : MonoBehaviour
         cooldownETime = e;
     }
 
+    public void IncreaseNormalATK(int i)
+    {
+        normalAttackDamage += i;
+    }
+
+    public void IncreaseQATK(int i)
+    {
+        qAttackDamage += i;
+    }
+
+    public void IncreaseEATK(int i)
+    {
+        eAttackDamage += i;
+    }
+
 }
 
