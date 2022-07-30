@@ -2492,7 +2492,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78bbac0c4957c644ba2ff8437bbc8c2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactText: {fileID: 0}
+  interactText: {fileID: 6209601802860159020}
   healthPotCostFg: {fileID: 1300258579338248756}
   energyPotFg: {fileID: 7678059712433917962}
   cooldownPotFg: {fileID: 4339144563995627997}
