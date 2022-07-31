@@ -30,6 +30,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         settingCanvasOverlay.SetActive(false);
+        canvasOverlay.SetActive(false);
     }
 
     // Update is called once per frame
