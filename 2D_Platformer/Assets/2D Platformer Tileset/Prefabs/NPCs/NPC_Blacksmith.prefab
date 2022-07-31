@@ -524,7 +524,6 @@ GameObject:
   - component: {fileID: 3313398145133905436}
   - component: {fileID: 3313398145133905437}
   - component: {fileID: 3313398145133905506}
-  - component: {fileID: 3313398145133905507}
   - component: {fileID: 3313398145133905439}
   - component: {fileID: 5069365014198267979}
   - component: {fileID: 7743384168109219288}
@@ -620,18 +619,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &3313398145133905507
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3313398145133905504}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 762bda43fc2c0b3409c838f231f3d1ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!70 &3313398145133905439
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1885,7 +1872,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 550, y: 600}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
