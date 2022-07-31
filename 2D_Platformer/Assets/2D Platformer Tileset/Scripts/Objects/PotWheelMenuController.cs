@@ -125,12 +125,12 @@ public class PotWheelMenuController : MonoBehaviour
 
         if (potWheelSelected)
         {
-            Time.timeScale = 0.5f;
+            //Time.timeScale = 0.5f;
             myAnim.SetBool("OpenWeaponWheel", true);
         }
         else
         {
-            Time.timeScale = 1f;
+            //Time.timeScale = 1f;
             myAnim.SetBool("OpenWeaponWheel", false);
         }
     }

@@ -32,8 +32,8 @@ public class ChildNPCQuestSystem : MonoBehaviour
     void Update()
     {
         DisplayQuests();
-        Debug.Log("Quest: " + currentQuestCompleted);
-        Debug.Log("Quest: " + questCounter);
+        //Debug.Log("Quest: " + currentQuestCompleted);
+        //Debug.Log("Quest: " + questCounter);
 
         if (Input.GetKeyDown(KeyCode.H))
         {

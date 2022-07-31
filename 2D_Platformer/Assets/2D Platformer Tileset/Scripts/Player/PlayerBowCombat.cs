@@ -68,8 +68,8 @@ public class PlayerBowCombat : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        myPlayerHealthXpSystem = FindObjectOfType<PlayerHealthXpSystem>();
         myAnimator = GetComponent<Animator>();
+        myPlayerHealthXpSystem = FindObjectOfType<PlayerHealthXpSystem>();
         myPotWheelMenuController = FindObjectOfType<PotWheelMenuController>();
         myParentNPCSystem = FindObjectOfType<ParentNPCSystem>();
         qAbilityImage.fillAmount = 0;
