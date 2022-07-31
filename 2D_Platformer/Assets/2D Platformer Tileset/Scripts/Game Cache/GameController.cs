@@ -12,6 +12,11 @@ public class GameController : MonoBehaviour
     bool escOverlayOpened = false;
     bool settingsOverlayOpened = false;
 
+    private string currentScene;
+
+    MenuController myMenuController;
+
+
     private void Awake()
     {
         int numbOfGameSession = FindObjectsOfType<GameController>().Length;
@@ -29,6 +34,12 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        myMenuController = FindObjectOfType<MenuController>();
+        SetOverlayFalse();
+    }
+
+    private void SetOverlayFalse()
+    {
         settingCanvasOverlay.SetActive(false);
         canvasOverlay.SetActive(false);
     }
@@ -37,7 +48,8 @@ public class GameController : MonoBehaviour
     void Update()
     {
         OpenESCOverlay();
-        Debug.Log(Time.timeScale);
+        currentScene = SceneManager.GetActiveScene().name;
+
     }
 
     private void OpenESCOverlay()
@@ -72,12 +84,18 @@ public class GameController : MonoBehaviour
 
     public void CloseSettingsOverlay()
     {
-        settingCanvasOverlay.SetActive(false);
+        if (currentScene != "MenuScene")
+            settingCanvasOverlay.SetActive(false);
+        else
+            myMenuController.SetMenuScene(true);
+            settingCanvasOverlay.SetActive(false);
+
     }
 
     public void ChangeMenuScene()
     {
         SceneManager.LoadScene("MenuScene");
+        canvasOverlay.SetActive(false);
     }
 
 }
