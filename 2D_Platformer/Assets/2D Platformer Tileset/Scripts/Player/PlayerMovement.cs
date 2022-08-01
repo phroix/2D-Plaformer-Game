@@ -32,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     GameObject defaultWeapon;
     GameObject swordWeapon;
     GameObject bowWeapon;
+    GameObject spearWeapon;
 
     //falling & jumping cache
     float fallingThreshold = -.1f;
@@ -51,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
     {
         activeMoveSpeed = moveSpeed;
         GetChildren();
-        SetWeaponActive(true, false, false, defaultWeapon);
+        SetWeaponActive(true, false, false,false, defaultWeapon);
         //currentWeapon = defaultWeapon;
         GetComponents();
     }
@@ -72,6 +73,7 @@ public class PlayerMovement : MonoBehaviour
         defaultWeapon = gameObject.transform.GetChild(0).gameObject;
         swordWeapon = gameObject.transform.GetChild(1).gameObject;
         bowWeapon = gameObject.transform.GetChild(2).gameObject;
+        spearWeapon = gameObject.transform.GetChild(3).gameObject;
     }
 
     //Get Components of this GameObject/child
@@ -91,22 +93,32 @@ public class PlayerMovement : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.Alpha1))//Check if 1 is pressed
         {
-            SetWeaponActive(true, false, false, defaultWeapon);
+            SetWeaponActive(true, false, false, false, defaultWeapon);
             
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))//Check if 2 is pressed
         {
-            SetWeaponActive(false, true, false, swordWeapon);
+            SetWeaponActive(false, true, false, false, swordWeapon);
             
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha3))//Check if 3 is pressed
         {
-            SetWeaponActive(false, false, true, bowWeapon);
+            SetWeaponActive(false, false, true, false, bowWeapon);
         }
 
-        if (childAnimator != null) childAnimator = currentWeapon.GetComponent<Animator>(); //gets component of child Animator
+        if (Input.GetKeyDown(KeyCode.Alpha4))//Check if 3 is pressed
+        {
+            SetWeaponActive(false, false, false,true, bowWeapon);
+        }
+
+        if (childAnimator != null) 
+        {
+            childAnimator = currentWeapon.GetComponent<Animator>(); //gets component of child Animator
+            Debug.Log("!=null");
+
+        }
     }
 
     public GameObject GetCurrentWeapon()
@@ -114,11 +126,12 @@ public class PlayerMovement : MonoBehaviour
         return currentWeapon;
     }
 
-    private void SetWeaponActive(bool b1, bool b2, bool b3, GameObject g)
+    private void SetWeaponActive(bool b1, bool b2, bool b3, bool b4, GameObject g)
     {
         defaultWeapon.SetActive(b1);
         swordWeapon.SetActive(b2);
         bowWeapon.SetActive(b3);
+        spearWeapon.SetActive(b4);
         if(g!=null) currentWeapon = g;
         
         qAbility.SetActive(!b1);
