@@ -110,7 +110,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha4))//Check if 3 is pressed
         {
-            SetWeaponActive(false, false, false,true, bowWeapon);
+            SetWeaponActive(false, false, false,true, spearWeapon);
         }
 
         if (childAnimator != null) 

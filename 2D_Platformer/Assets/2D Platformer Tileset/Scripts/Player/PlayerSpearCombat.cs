@@ -5,19 +5,17 @@ using UnityEngine.UI;
 
 public class PlayerSpearCombat : MonoBehaviour
 {
-    public GameObject arrow;
-    public Text amountArrowsText;
-    public int currentAmountArrows = 0;
-
-    public Transform shotpoint;
+    public GameObject spear;
+    public Transform normalAttackPoint;
     public LayerMask enemyLayers;
+    public Transform shotpoint;
 
     [Header("Normal Attack")]
     public float normalAttackDamage = 0f;
     public float normalArrowSpeed = 100000f;
     public float yAxis = .5f;
     public float normalAttackRange = 0.5f;
-    public float normalAttackRate = 2f;
+    public float normalAttackRate = .5f;
     float nextAttackTime = 0f;
     float nextMove = 0f;
 
@@ -33,7 +31,6 @@ public class PlayerSpearCombat : MonoBehaviour
 
     [Header("E Attack")]
     public float eAttackDamage = 0f;
-    public GameObject spear;
     public Image eAbilityImage;
     public float eAttackRange = 0.5f;
     public float eAttackRate = 2f;
@@ -81,12 +78,6 @@ public class PlayerSpearCombat : MonoBehaviour
         NormalAttack();
         QAttack();
         EAttack();
-        DisplayArrowAmount();
-    }
-
-    private void DisplayArrowAmount()
-    {
-        amountArrowsText.text = currentAmountArrows.ToString();
     }
 
     private void GetPlayerScale()
@@ -113,14 +104,21 @@ public class PlayerSpearCombat : MonoBehaviour
 
         if (Time.time >= nextAttackTime)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0) && currentAmountArrows > 0)
+            if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 //Make Player stand still
                 nextMove = Time.time + (1f / normalAttackRate);
 
                 //Play attack animation
-                DecreaseArrows(1);
                 myAnimator.SetTrigger("NormalAttack");
+
+                //Enemy hit
+                Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(normalAttackPoint.position, normalAttackRange, enemyLayers);
+                //Damage enemies
+                foreach (Collider2D enemy in hitEnemies)
+                {
+                    Debug.Log("We hit " + enemy.name);
+                }
 
                 nextAttackTime = Time.time + 1f / normalAttackRate;
             }
@@ -142,7 +140,7 @@ public class PlayerSpearCombat : MonoBehaviour
 
         if (Time.time >= nextQAttackTime)
         {
-            if (Input.GetKeyDown(KeyCode.Q) && !isQCooldown && !myPotWheelMenuController.GetPotWheelSelected() && currentAmountArrows >= 3)
+            if (Input.GetKeyDown(KeyCode.Q) && !isQCooldown && !myPotWheelMenuController.GetPotWheelSelected() )
             {
                 //Make Player stand still
                 myPlayerHealthXpSystem.DecreaseEnergy(qEnergCost);
@@ -151,7 +149,6 @@ public class PlayerSpearCombat : MonoBehaviour
                 nextMove = Time.time + (1f / qAttackRate);
 
                 //Play attack animation
-                DecreaseArrows(3);
                 myAnimator.SetTrigger("QAttack");
 
                 nextQAttackTime = Time.time + 1f / qAttackRate;
@@ -183,7 +180,7 @@ public class PlayerSpearCombat : MonoBehaviour
             parentRigidbody2D.bodyType = RigidbodyType2D.Static;
         }
 
-        if (Time.time >= nextEAttackTime && !isECooldown && !myPotWheelMenuController.GetPotWheelSelected() && currentAmountArrows > 0)
+        if (Time.time >= nextEAttackTime && !isECooldown && !myPotWheelMenuController.GetPotWheelSelected())
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -193,7 +190,14 @@ public class PlayerSpearCombat : MonoBehaviour
                 eAbilityImage.fillAmount = 1;
                 nextMove = Time.time + (1f / eAttackRate);
 
-                DecreaseArrows(1);
+                //Detect enemies in  range of attack
+                Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(normalAttackPoint.position, qAttackRange, enemyLayers);
+
+                //Damage enemies
+                foreach (Collider2D enemy in hitEnemies)
+                {
+                    Debug.Log("We hit with q" + enemy.name);
+                }
 
                 //Play attack animation
                 myAnimator.SetTrigger("EAttack");
@@ -221,7 +225,7 @@ public class PlayerSpearCombat : MonoBehaviour
     private void InstantiateThrowingSpear(float arrowSpeed)
     {
         arrowSpeed = normalArrowSpeed;
-        GameObject newArrow = Instantiate(arrow, shotpoint.position, shotpoint.rotation) as GameObject;
+        GameObject newArrow = Instantiate(spear, shotpoint.position, shotpoint.rotation) as GameObject;
         //if(!localScalel) newArrow.transform.localScale *= -1;
         newArrow.GetComponent<Rigidbody2D>().velocity = new Vector2(xspeed * normalArrowSpeed, yAxis);
     }
@@ -242,15 +246,6 @@ public class PlayerSpearCombat : MonoBehaviour
     public void SetECooldown(float e)
     {
         cooldownETime = e;
-    }
-
-    public void IncreaseArrows()
-    {
-        ++currentAmountArrows;
-    }
-    public void DecreaseArrows(int i)
-    {
-        currentAmountArrows -= i;
     }
 
     public void IncreaseNormalATK(int i)
