@@ -11,10 +11,11 @@ public class PlayerDamageSystem : MonoBehaviour
     public int swordStartDmg = 25;
     public int swordCurrentDmg;
     
-
-
     public int bowStartDmg = 15;
     public int bowCurrentDmg;
+
+    public int spearStartDmg = 30;
+    public int spearCurrentDmg;
 
     PlayerHealthXpSystem myPlayerHealthXpSystem;
     PlayerMovement myPlayerMovement;
@@ -37,6 +38,7 @@ public class PlayerDamageSystem : MonoBehaviour
     {
         bowCurrentDmg = bowStartDmg;
         swordCurrentDmg = swordStartDmg;
+        spearCurrentDmg = spearStartDmg;
     }
 
     // Update is called once per frame
@@ -112,7 +114,13 @@ public class PlayerDamageSystem : MonoBehaviour
         {
             //Debug.Log("Bow active");
             dmgText.text = "DMG: " + bowCurrentDmg.ToString();
-        }else
+        }
+        else if (myPlayerMovement.GetCurrentWeapon().ToString() == "Speer (UnityEngine.GameObject)")
+        {
+            //Debug.Log("Bow active");
+            dmgText.text = "DMG: " + spearCurrentDmg.ToString();
+        }
+        else
         {
             //Debug.Log("Default active");
             dmgText.text = "DMG: 0";
