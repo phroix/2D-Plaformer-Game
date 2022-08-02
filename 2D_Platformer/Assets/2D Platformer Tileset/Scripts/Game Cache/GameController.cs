@@ -37,7 +37,7 @@ public class GameController : MonoBehaviour
     void Update()
     {
         OpenESCOverlay();
-        Debug.Log(Time.timeScale);
+        //Debug.Log(Time.timeScale);
     }
 
     private void OpenESCOverlay()

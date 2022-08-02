@@ -24,7 +24,7 @@ public class Speer : MonoBehaviour
     {
         if (myBoxCollider2D.IsTouchingLayers(LayerMask.GetMask("Foreground")))
         {
-            Debug.Log("Arrow Foreground");
+            //Debug.Log("Arrow Foreground");
             myRigidbody2D.bodyType = RigidbodyType2D.Static;
             StartCoroutine(WaitUntilDestroy(2f));
         }

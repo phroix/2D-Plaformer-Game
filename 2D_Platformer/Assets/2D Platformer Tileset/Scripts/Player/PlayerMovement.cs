@@ -116,7 +116,7 @@ public class PlayerMovement : MonoBehaviour
         if (childAnimator != null) 
         {
             childAnimator = currentWeapon.GetComponent<Animator>(); //gets component of child Animator
-            Debug.Log("!=null");
+            //Debug.Log("!=null");
 
         }
     }
