@@ -14,10 +14,12 @@ public class ChildNPCQuestSystem : MonoBehaviour
     bool currentQuestCompleted = false;
     static int questCounter = 0;
 
-    private string[] quests = { "Quest1", "Quest2", "Quest3", "Quest4", "Quest5", "Quest6", "Quest7", "Quest8" };
+    private string[] quests;
 
     int xpPerQuest = 100;
 
+
+    StorySystem myStorySystem;
 
     PlayerHealthXpSystem myPlayerHealthXpSystem;
     // Start is called before the first frame update
@@ -26,6 +28,8 @@ public class ChildNPCQuestSystem : MonoBehaviour
         interactText.text = "Quests";
         questText.text = "Quest start at lvl 1";
         myPlayerHealthXpSystem = FindObjectOfType<PlayerHealthXpSystem>();
+        myStorySystem = FindObjectOfType<StorySystem>();
+        quests = myStorySystem.GetQuests();
     }
 
     // Update is called once per frame
