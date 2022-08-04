@@ -36,8 +36,8 @@ public class ChildNPCQuestSystem : MonoBehaviour
     void Update()
     {
         DisplayQuests();
-        //Debug.Log("Quest: " + currentQuestCompleted);
-        //Debug.Log("Quest: " + questCounter);
+        CheckForCurrentQuestCompleted();
+
 
         if (Input.GetKeyDown(KeyCode.H))
         {
@@ -66,6 +66,15 @@ public class ChildNPCQuestSystem : MonoBehaviour
         }
     }
 
+    public void SetCurrentQuestCompleted(bool b)
+    {
+        currentQuestCompleted = b;
+    }
+
+    private void CheckForCurrentQuestCompleted()
+    {
+        currentQuestCompleted = myStorySystem.GetCurrentQuestCompleted();
+    }
 
 
 }

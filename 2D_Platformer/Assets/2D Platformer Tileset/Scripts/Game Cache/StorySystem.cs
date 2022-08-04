@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,8 @@ public class StorySystem : MonoBehaviour
 
     private bool currentQuestCompleted = false;
 
+    private int currentKillQuestCounter = 0;
+    private bool pickupQuest = false;
 
 
     // Start is called before the first frame update
@@ -27,12 +30,22 @@ public class StorySystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public string[] GetQuests()
     {
         return quests;
+    }
+
+    public bool GetCurrentQuestCompleted()
+    {
+        return currentQuestCompleted;
+    }
+
+    public void SetCurrentQuestCompleted(bool b)
+    {
+        currentQuestCompleted = b;
     }
 
 
