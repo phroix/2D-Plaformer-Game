@@ -34,7 +34,7 @@ public class ChilNPCBlacksmithSystem : MonoBehaviour
     {
         DisplayLevelText();
         //CehckForUpgrade();
-        Debug.Log("Current Lvl: " + myPlayerHealthXpSystem.GetCurrentLeve());
+        Debug.Log("Current Lvl: " + myPlayerHealthXpSystem.GetCurrentLevel());
     }
     private void DisplayLevelText()
     {
@@ -55,7 +55,7 @@ public class ChilNPCBlacksmithSystem : MonoBehaviour
 
     public bool CehckForSwordUpgrade()
     {
-        if(myPlayerHealthXpSystem.GetCurrentLeve() > sowrdUpgradeClicked)
+        if(myPlayerHealthXpSystem.GetCurrentLevel() > sowrdUpgradeClicked)
         {
             return true;
         }
@@ -67,7 +67,7 @@ public class ChilNPCBlacksmithSystem : MonoBehaviour
 
     public bool CehckForBowUpgrade()
     {
-        if (myPlayerHealthXpSystem.GetCurrentLeve() > bowUpgradeClicked)
+        if (myPlayerHealthXpSystem.GetCurrentLevel() > bowUpgradeClicked)
         {
             return true;
         }

@@ -75052,7 +75052,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &626291515
 Transform:
   m_ObjectHideFlags: 0
@@ -105717,6 +105717,7 @@ GameObject:
   - component: {fileID: 2126880030}
   - component: {fileID: 2126880029}
   - component: {fileID: 2126880034}
+  - component: {fileID: 2126880038}
   - component: {fileID: 2126880035}
   - component: {fileID: 2126880036}
   - component: {fileID: 2126880037}
@@ -105877,8 +105878,6 @@ MonoBehaviour:
   dashSpeed: 18
   dashLength: 0.3
   dashCooldown: 1
-  qAbility: {fileID: 710962744}
-  eAbility: {fileID: 1993680872}
 --- !u!114 &2126880035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105943,6 +105942,20 @@ MonoBehaviour:
   coinTextShadder: {fileID: 1066473693}
   keyText: {fileID: 1788672307}
   keyTextShadder: {fileID: 640739478}
+--- !u!114 &2126880038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2126880028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdbb82948a9369d4a9f352293f6ba35d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  qAbility: {fileID: 710962744}
+  eAbility: {fileID: 1993680872}
 --- !u!1 &2132677892
 GameObject:
   m_ObjectHideFlags: 0
@@ -106186,7 +106199,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1865814610160913337, guid: 61215fec79d743741b57d4a8b06e655b, type: 3}
       propertyPath: orthographic size
-      value: 7
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1865814610160913337, guid: 61215fec79d743741b57d4a8b06e655b, type: 3}
       propertyPath: m_BackGroundColor.a
@@ -106206,15 +106219,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1865814610160913342, guid: 61215fec79d743741b57d4a8b06e655b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 155.798
+      value: 6.5
       objectReference: {fileID: 0}
     - target: {fileID: 1865814610160913342, guid: 61215fec79d743741b57d4a8b06e655b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 50.43
+      value: 6.1
       objectReference: {fileID: 0}
     - target: {fileID: 1865814610160913342, guid: 61215fec79d743741b57d4a8b06e655b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -20.798523
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1865814610233236145, guid: 61215fec79d743741b57d4a8b06e655b, type: 3}
       propertyPath: m_LocalPosition.x

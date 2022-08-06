@@ -41,14 +41,14 @@ public class ChildNPCQuestSystem : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.H))
         {
-            currentQuestCompleted = true;
+            myStorySystem.SetCurrentQuestCompleted(true);
         }
 
     }
 
     private void DisplayQuests()
     {
-        var currentLevel = myPlayerHealthXpSystem.GetCurrentLeve();
+        var currentLevel = myPlayerHealthXpSystem.GetCurrentLevel();
         if (currentLevel > questCounter && currentLevel!= 0)
         {
             questText.text = quests[questCounter];
@@ -61,8 +61,7 @@ public class ChildNPCQuestSystem : MonoBehaviour
         {
             ++questCounter;
             myPlayerHealthXpSystem.IncreaseXP(xpPerQuest);
-            currentQuestCompleted = false;
-
+            myStorySystem.SetCurrentQuestCompleted(false);
         }
     }
 

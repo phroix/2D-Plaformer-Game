@@ -22,12 +22,14 @@ public class ChildNPCWeaponSystem : MonoBehaviour
 
     PlayerCoinController myPlayerCoinController;
     PlayerBowCombat myPlayerBowCombat;
+    PlayerMovement myPlayerMovement;
 
     // Start is called before the first frame update
     void Start()
     {
         myPlayerCoinController = FindObjectOfType<PlayerCoinController>();
         myPlayerBowCombat = FindObjectOfType<PlayerBowCombat>();
+        myPlayerMovement = FindObjectOfType<PlayerMovement>();
 
         interactText.text = "Weapon Shop";
     }
@@ -76,6 +78,7 @@ public class ChildNPCWeaponSystem : MonoBehaviour
             myPlayerCoinController.DecreaseCurrentCoins(sowrdCost);
             swordBuy = true;
             swordFg.SetActive(true);
+            myPlayerMovement.SetSwordHolding();
         }
     }
 
@@ -86,6 +89,8 @@ public class ChildNPCWeaponSystem : MonoBehaviour
             myPlayerCoinController.DecreaseCurrentCoins(bowCost);
             bowBuy = true;
             bowFg.SetActive(true);
+            myPlayerMovement.SetBowHolding();
+
         }
     }
 
