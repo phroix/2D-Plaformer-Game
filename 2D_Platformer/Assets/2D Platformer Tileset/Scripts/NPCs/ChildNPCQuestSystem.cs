@@ -7,10 +7,18 @@ using UnityEngine.UI;
 
 public class ChildNPCQuestSystem : MonoBehaviour
 {
+    public GameObject acceptButtonFg;
+    public GameObject submitButtonFg;    
+    
+    public GameObject acceptButton;
+    public GameObject submitButton;
+
     public Text interactText;
 
     public Text questText;
 
+
+    bool currentQuestAccepted = false;
     bool currentQuestCompleted = false;
     static int questCounter = 0;
 
@@ -52,17 +60,27 @@ public class ChildNPCQuestSystem : MonoBehaviour
         if (currentLevel > questCounter && currentLevel!= 0)
         {
             questText.text = quests[questCounter];
+            acceptButton.SetActive(true);
+            submitButton.SetActive(true);
         }
     }
 
     public void CompleteQuest()
     {
-        if (currentQuestCompleted && !myPlayerHealthXpSystem.GetReachedMaxLevel())
+        if (currentQuestCompleted && currentQuestAccepted && !myPlayerHealthXpSystem.GetReachedMaxLevel())
         {
-            ++questCounter;
             myPlayerHealthXpSystem.IncreaseXP(xpPerQuest);
             myStorySystem.SetCurrentQuestCompleted(false);
+            ++questCounter;
+            currentQuestAccepted = false;
+            acceptButtonFg.SetActive(false);
+            submitButtonFg.SetActive(true);
+
+            acceptButton.SetActive(false);
+            submitButton.SetActive(false);
         }
+
+
     }
 
     private void CheckForCurrentQuestCompleted()
@@ -70,5 +88,11 @@ public class ChildNPCQuestSystem : MonoBehaviour
         currentQuestCompleted = myStorySystem.GetCurrentQuestCompleted();
     }
 
+    public void PressAcceptButton()
+    {
+        currentQuestAccepted = true;
+        acceptButtonFg.SetActive(true);
+        submitButtonFg.SetActive(false);
+    }
 
 }

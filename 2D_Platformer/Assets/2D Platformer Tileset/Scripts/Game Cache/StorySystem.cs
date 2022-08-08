@@ -25,16 +25,18 @@ public class StorySystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         myPlayerHealthXpSystem = FindObjectOfType<PlayerHealthXpSystem>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.L))
         {
-            ++currentKillQuestCounter;
+            IncreaseCurrentKillQuestCounter();
         }
+        Debug.Log("currentQuestCompleted: " + currentQuestCompleted);
         QuestsFunctions();
     }
 
@@ -121,6 +123,10 @@ public class StorySystem : MonoBehaviour
     public void SetCurrentQuestPickup(bool b)
     {
         currentKillQuestPickup = b;
+    }    
+    public void IncreaseCurrentKillQuestCounter()
+    {
+        ++currentKillQuestCounter;
     }
 
 }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7227415758925906959}
   - component: {fileID: 6885341890075334011}
   m_Layer: 0
-  m_Name: ArrowImage FG
+  m_Name: SubmitButton  FG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.2901961}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.48235294}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -259,6 +259,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a3f2f928108b9c488bde57603f17c0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  acceptButtonFg: {fileID: 6840148560943325089}
+  submitButtonFg: {fileID: 225578405540967437}
+  acceptButton: {fileID: 5358905729246910662}
+  submitButton: {fileID: 7345678751306518376}
   interactText: {fileID: 5118458857020280220}
   questText: {fileID: 5674375207164845555}
 --- !u!1 &2138022004008707053
@@ -793,9 +797,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ChildNPCMerchantSystem, Assembly-CSharp
-        m_MethodName: BuyArrow
+      - m_Target: {fileID: 2051646801309540432}
+        m_TargetAssemblyTypeName: ChildNPCQuestSystem, Assembly-CSharp
+        m_MethodName: PressAcceptButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -817,12 +821,12 @@ GameObject:
   - component: {fileID: 6382285818350494599}
   - component: {fileID: 3935689051835663984}
   m_Layer: 0
-  m_Name: ArrowImage FG
+  m_Name: AcceptButton  FG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5939864844369804826
 RectTransform:
   m_ObjectHideFlags: 0
@@ -863,7 +867,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.2901961}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.48235294}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
