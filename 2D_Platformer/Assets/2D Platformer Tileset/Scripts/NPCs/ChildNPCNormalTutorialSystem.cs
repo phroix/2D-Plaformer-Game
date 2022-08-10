@@ -6,11 +6,16 @@ using UnityEngine;
 public class ChildNPCNormalTutorialSystem : MonoBehaviour
 {
 
-    public GameObject [] WayPoints;
+    public GameObject [] wayPoints;
     public float activeMoveSpeed = 3f;
+    public GameObject canvasOverlay;
+
 
     float control = 1f;
-    bool moveNPC = true;
+    bool moveNPC = false;
+    bool playerDetected = false;
+    static bool canvasOverlayOpened = false;
+    static int hitWayPoints = 0;
 
     Rigidbody2D myRigidbody2D;
     BoxCollider2D myBoxCollider2D;
@@ -21,6 +26,7 @@ public class ChildNPCNormalTutorialSystem : MonoBehaviour
         myRigidbody2D = GetComponent<Rigidbody2D>();
         myBoxCollider2D = GetComponent<BoxCollider2D>();
         myAnimator = GetComponent<Animator>();
+        myRigidbody2D.bodyType = RigidbodyType2D.Static;
     }
 
     // Update is called once per frame
@@ -28,18 +34,36 @@ public class ChildNPCNormalTutorialSystem : MonoBehaviour
     {
         MoveToWayPoints();
         FlipSprite();
+        OpenCanvasOverlay();
     }
+    private void OpenCanvasOverlay()
+    {
+        if (Input.GetKeyDown(KeyCode.F) && playerDetected)
+        {
+            canvasOverlayOpened = true;
+            moveNPC = true;
+            canvasOverlay.SetActive(true);
+        }
 
+        //if (!canvasOverlayOpened)
+    }
     private void MoveToWayPoints()
     {
+        if (myBoxCollider2D.IsTouchingLayers(LayerMask.GetMask("Player"))) return;
+
         if (myBoxCollider2D.IsTouchingLayers(LayerMask.GetMask("WayPoints")))
         {
             transform.localScale = new Vector2(-1, 1);
+            //myRigidbody2D.velocity = new Vector2(0, 0);
+            myRigidbody2D.bodyType = RigidbodyType2D.Static;
             moveNPC = false;
+            Destroy(wayPoints[hitWayPoints]);
+            ++hitWayPoints;
         }
 
         if (moveNPC)
         {
+            myRigidbody2D.bodyType = RigidbodyType2D.Dynamic;
             Vector2 playerPos = new Vector2(control * activeMoveSpeed, myRigidbody2D.velocity.y);//creates new Vector2 with x=control * moveSpeed
             myRigidbody2D.velocity = playerPos;//every frame velocity gets updated
            //sets Bool of Animator true, if player has any movement
@@ -60,7 +84,15 @@ public class ChildNPCNormalTutorialSystem : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-              
+        if (collision.name != "Player") return;
+        playerDetected = true;
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.name != "Player") return;
+        //canvasOverlayOpened = false;
+        playerDetected = false;
     }
 
 
