@@ -8,14 +8,14 @@ public class ChildNPCNormalTutorialSystem : MonoBehaviour
 
     public GameObject [] wayPoints;
     public float activeMoveSpeed = 3f;
-    public GameObject canvasOverlay;
+    public GameObject [] overlayStages;
 
 
     float control = 1f;
     bool moveNPC = false;
     bool playerDetected = false;
     static bool canvasOverlayOpened = false;
-    static int hitWayPoints = 0;
+    int hitWayPoints = 0;
 
     Rigidbody2D myRigidbody2D;
     BoxCollider2D myBoxCollider2D;
@@ -27,11 +27,15 @@ public class ChildNPCNormalTutorialSystem : MonoBehaviour
         myBoxCollider2D = GetComponent<BoxCollider2D>();
         myAnimator = GetComponent<Animator>();
         myRigidbody2D.bodyType = RigidbodyType2D.Static;
+        overlayStages[0].SetActive(true);
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("hitWayPoints: " + hitWayPoints);
+        Debug.Log("overlayStages: " + overlayStages[hitWayPoints].name);
         MoveToWayPoints();
         FlipSprite();
         OpenCanvasOverlay();
@@ -42,9 +46,20 @@ public class ChildNPCNormalTutorialSystem : MonoBehaviour
         {
             canvasOverlayOpened = true;
             moveNPC = true;
-            canvasOverlay.SetActive(true);
+            overlayStages[hitWayPoints + 1].SetActive(true);
         }
 
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+
+            overlayStages[hitWayPoints].SetActive(false);
+        }
+
+        if (hitWayPoints == 4)
+        {
+            myRigidbody2D.bodyType = RigidbodyType2D.Static;
+            moveNPC = false;
+        }
         //if (!canvasOverlayOpened)
     }
     private void MoveToWayPoints()
@@ -80,6 +95,12 @@ public class ChildNPCNormalTutorialSystem : MonoBehaviour
             //flips scale of Player
             transform.localScale = new Vector2(Mathf.Sign(myRigidbody2D.velocity.x), 1);//Mathf.Sign return value is 1 when f is positive or zero, -1 when f is negative
         }
+    }
+
+    public void ExitOverlayStage()
+    {
+        Debug.Log("Press");
+        overlayStages[hitWayPoints].SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

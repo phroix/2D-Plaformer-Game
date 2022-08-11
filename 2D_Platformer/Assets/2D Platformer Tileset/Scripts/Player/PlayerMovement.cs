@@ -175,7 +175,10 @@ public class PlayerMovement : MonoBehaviour
         holdingSpearWeapon = true;
     }
 
-
+    public bool GetBowHoldingVar()
+    {
+        return holdingBowWeapon;
+    }
 
     //move player
     private void Move()
