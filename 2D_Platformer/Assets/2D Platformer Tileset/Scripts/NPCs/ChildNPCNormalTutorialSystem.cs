@@ -14,6 +14,7 @@ public class ChildNPCNormalTutorialSystem : MonoBehaviour
     float control = 1f;
     bool moveNPC = false;
     bool playerDetected = false;
+    bool firstCanvasclosed = false;
     static bool canvasOverlayOpened = false;
     int hitWayPoints = 0;
 
@@ -42,7 +43,7 @@ public class ChildNPCNormalTutorialSystem : MonoBehaviour
     }
     private void OpenCanvasOverlay()
     {
-        if (Input.GetKeyDown(KeyCode.F) && playerDetected)
+        if (Input.GetKeyDown(KeyCode.F) && playerDetected && firstCanvasclosed)
         {
             canvasOverlayOpened = true;
             moveNPC = true;
@@ -51,8 +52,10 @@ public class ChildNPCNormalTutorialSystem : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-
+            firstCanvasclosed = true;
             overlayStages[hitWayPoints].SetActive(false);
+            if(hitWayPoints == 4)
+                overlayStages[5].SetActive(false);
         }
 
         if (hitWayPoints == 4)
