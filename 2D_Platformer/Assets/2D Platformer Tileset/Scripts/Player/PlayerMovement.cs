@@ -53,6 +53,21 @@ public class PlayerMovement : MonoBehaviour
     public GameObject qAbility;
     public GameObject eAbility;
 
+    private void Awake()
+    {
+
+        int numbOfGameSession = FindObjectsOfType<PlayerMovement>().Length;
+
+        if (numbOfGameSession > 1)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -61,11 +76,12 @@ public class PlayerMovement : MonoBehaviour
         SetWeaponActive(true, false, false,false, defaultWeapon);
         //currentWeapon = defaultWeapon;
         GetComponents();
+        CheckForScene();
+
     }
     // Update is called once per frame
     void Update()
     {
-        CheckForScene();
         SetCurrentWeapon();
         Move();
         FlipSprite();
@@ -81,6 +97,19 @@ public class PlayerMovement : MonoBehaviour
             holdingSwordWeapon = true;
             holdingBowWeapon = true;
             holdingSpearWeapon = true;
+            swordWeapon.GetComponent<PlayerSwordCombat>().SetEnergyCost(0, 0);
+            bowWeapon.GetComponent<PlayerBowCombat>().SetEnergyCost(0, 0,100);
+            spearWeapon.GetComponent<PlayerSpearCombat>().SetEnergyCost(0, 0);
+
+        }
+        else
+        {
+            holdingSwordWeapon = false;
+            holdingBowWeapon = false;
+            holdingSpearWeapon = false;
+            swordWeapon.GetComponent<PlayerSwordCombat>().SetEnergyCost(30, 20);
+            bowWeapon.GetComponent<PlayerBowCombat>().SetEnergyCost(30, 20, 0);
+            spearWeapon.GetComponent<PlayerSwordCombat>().SetEnergyCost(30, 20);
         }
 
     }

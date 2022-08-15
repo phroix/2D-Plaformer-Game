@@ -241,6 +241,11 @@ public class PlayerSwordCombat : MonoBehaviour
         //Gizmos.DrawWireSphere(eAttackPoint.position, eAttackRange);
     }
 
+    public void SetEnergyCost(int i,int b)
+    {
+        qEnergyCost = i;
+        eEnergyCost = b;
+    }
     public float GetQCooldown()
     {
         return cooldownQTime;

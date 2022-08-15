@@ -239,6 +239,12 @@ public class PlayerSpearCombat : MonoBehaviour
         return cooldownETime;
     }
 
+    public void SetEnergyCost(int i, int b)
+    {
+        qEnergCost = i;
+        eEnergCost = b;
+    }
+
     public void SetQCooldown(float q)
     {
         cooldownQTime = q;

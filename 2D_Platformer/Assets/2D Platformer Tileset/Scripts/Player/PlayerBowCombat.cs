@@ -244,7 +244,12 @@ public class PlayerBowCombat : MonoBehaviour
     {
         return cooldownETime;
     }
-
+    public void SetEnergyCost(int i, int b,int c)
+    {
+        qEnergCost = i;
+        eEnergCost = b;
+        currentAmountArrows = c;
+    }
     public void SetQCooldown(float q)
     {
         cooldownQTime = q;
