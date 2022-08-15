@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -64,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        CheckForScene();
         SetCurrentWeapon();
         Move();
         FlipSprite();
@@ -71,7 +73,17 @@ public class PlayerMovement : MonoBehaviour
         DashRoll();
         IsTouching();
     }
+    private void CheckForScene()
+    {
+        var currentScene = SceneManager.GetActiveScene();
+        if (currentScene.name == "TutorialScene")
+        {
+            holdingSwordWeapon = true;
+            holdingBowWeapon = true;
+            holdingSpearWeapon = true;
+        }
 
+    }
     //Get Children of this GameObject 
     private void GetChildren()
     {

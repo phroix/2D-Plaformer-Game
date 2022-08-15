@@ -46,7 +46,7 @@ public class ChildNPCNormalTutorialSystem : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F) && playerDetected && firstCanvasclosed)
         {
             canvasOverlayOpened = true;
-            moveNPC = true;
+            StartCoroutine(NPCMove(3));
             overlayStages[hitWayPoints + 1].SetActive(true);
         }
 
@@ -65,6 +65,13 @@ public class ChildNPCNormalTutorialSystem : MonoBehaviour
         }
         //if (!canvasOverlayOpened)
     }
+    public IEnumerator NPCMove(int i)
+    {
+        yield return new WaitForSecondsRealtime(i);
+        moveNPC = true;
+    }
+
+
     private void MoveToWayPoints()
     {
         if (myBoxCollider2D.IsTouchingLayers(LayerMask.GetMask("Player"))) return;

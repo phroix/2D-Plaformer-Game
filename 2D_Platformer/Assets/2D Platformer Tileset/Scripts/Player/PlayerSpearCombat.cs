@@ -95,7 +95,7 @@ public class PlayerSpearCombat : MonoBehaviour
 
     private void NormalAttack()
     {
-        if (myParentNPCSystem.GetCanvasOverlayOpened() || myPotWheelMenuController.GetPotWheelSelected()) return;
+        if (myParentNPCSystem != null && (myParentNPCSystem.GetCanvasOverlayOpened() || myPotWheelMenuController.GetPotWheelSelected())) return;
 
         if (Time.time <= nextMove)
         {
