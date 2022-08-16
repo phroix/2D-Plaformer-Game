@@ -27,17 +27,26 @@ public class ChildNPCWeaponSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        myPlayerCoinController = FindObjectOfType<PlayerCoinController>();
-        myPlayerBowCombat = FindObjectOfType<PlayerBowCombat>();
-        myPlayerMovement = FindObjectOfType<PlayerMovement>();
+        if (myPlayerCoinController == null) myPlayerCoinController = FindObjectOfType<PlayerCoinController>();
+        if (myPlayerMovement == null) myPlayerMovement = FindObjectOfType<PlayerMovement>();
+        if (myPlayerBowCombat == null) myPlayerBowCombat = FindObjectOfType<PlayerBowCombat>();
+
 
         interactText.text = "Weapon Shop";
     }
 
+
     // Update is called once per frame
     void Update()
     {
+        GetObjectsOfType();
         BuyController();
+    }
+    private void GetObjectsOfType()
+    {
+        //if(myPlayerCoinController==null)myPlayerCoinController = FindObjectOfType<PlayerCoinController>();
+        if (myPlayerBowCombat == null) myPlayerBowCombat = FindObjectOfType<PlayerBowCombat>();
+        //if (myPlayerMovement == null) myPlayerMovement = FindObjectOfType<PlayerMovement>();
     }
 
     private void BuyController()

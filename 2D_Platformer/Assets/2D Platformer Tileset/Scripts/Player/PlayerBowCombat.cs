@@ -9,7 +9,7 @@ public class PlayerBowCombat : MonoBehaviour
 {
     public GameObject arrow;
     public Text amountArrowsText;
-    public int currentAmountArrows = 0;
+    public static int currentAmountArrows = 0;
 
     public Transform shotpoint;
     public LayerMask enemyLayers;
