@@ -220,7 +220,7 @@ public class PlayerHealthXpSystem : MonoBehaviour
         return reachedMaxLevel;
     }
 
-    public int GetCurrentLeve()
+    public int GetCurrentLevel()
     {
         return currentLevel;
     }

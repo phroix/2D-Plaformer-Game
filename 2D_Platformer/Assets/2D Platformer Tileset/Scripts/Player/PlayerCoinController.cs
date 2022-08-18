@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class PlayerCoinController : MonoBehaviour
 {
-    int startCoin = 100;
+    int startCoin = 500;
     int currentCoin = 0;
 
     public Text coinText;

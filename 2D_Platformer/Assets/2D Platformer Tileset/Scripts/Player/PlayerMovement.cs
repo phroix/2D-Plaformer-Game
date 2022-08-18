@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -34,6 +35,11 @@ public class PlayerMovement : MonoBehaviour
     GameObject bowWeapon;
     GameObject spearWeapon;
 
+    //Weapons holding
+    bool holdingSwordWeapon = false;
+    bool holdingBowWeapon = false;
+    bool holdingSpearWeapon = false;
+
     //falling & jumping cache
     float fallingThreshold = -.1f;
     float jumpingThreshold = .1f;
@@ -47,6 +53,21 @@ public class PlayerMovement : MonoBehaviour
     public GameObject qAbility;
     public GameObject eAbility;
 
+    private void Awake()
+    {
+
+        int numbOfGameSession = FindObjectsOfType<PlayerMovement>().Length;
+
+        if (numbOfGameSession > 1)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -55,6 +76,8 @@ public class PlayerMovement : MonoBehaviour
         SetWeaponActive(true, false, false,false, defaultWeapon);
         //currentWeapon = defaultWeapon;
         GetComponents();
+        CheckForScene();
+
     }
     // Update is called once per frame
     void Update()
@@ -66,8 +89,31 @@ public class PlayerMovement : MonoBehaviour
         DashRoll();
         IsTouching();
     }
+    private void CheckForScene()
+    {
+        var currentScene = SceneManager.GetActiveScene();
+        if (currentScene.name == "TutorialScene")
+        {
+            holdingSwordWeapon = true;
+            holdingBowWeapon = true;
+            holdingSpearWeapon = true;
+            swordWeapon.GetComponent<PlayerSwordCombat>().SetEnergyCost(0, 0);
+            bowWeapon.GetComponent<PlayerBowCombat>().SetEnergyCost(0, 0,100);
+            spearWeapon.GetComponent<PlayerSpearCombat>().SetEnergyCost(0, 0);
 
-    //Get Children of this GameObject
+        }
+        else
+        {
+            holdingSwordWeapon = false;
+            holdingBowWeapon = false;
+            holdingSpearWeapon = false;
+            swordWeapon.GetComponent<PlayerSwordCombat>().SetEnergyCost(30, 20);
+            bowWeapon.GetComponent<PlayerBowCombat>().SetEnergyCost(30, 20, 0);
+            spearWeapon.GetComponent<PlayerSwordCombat>().SetEnergyCost(30, 20);
+        }
+
+    }
+    //Get Children of this GameObject 
     private void GetChildren()
     {
         defaultWeapon = gameObject.transform.GetChild(0).gameObject;
@@ -97,18 +143,18 @@ public class PlayerMovement : MonoBehaviour
             
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2))//Check if 2 is pressed
+        if (Input.GetKeyDown(KeyCode.Alpha2) && holdingSwordWeapon)//Check if 2 is pressed
         {
             SetWeaponActive(false, true, false, false, swordWeapon);
             
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha3))//Check if 3 is pressed
+        if (Input.GetKeyDown(KeyCode.Alpha3) && holdingBowWeapon)//Check if 3 is pressed
         {
             SetWeaponActive(false, false, true, false, bowWeapon);
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha4))//Check if 3 is pressed
+        if (Input.GetKeyDown(KeyCode.Alpha4) && holdingSpearWeapon)//Check if 3 is pressed
         {
             SetWeaponActive(false, false, false,true, spearWeapon);
         }
@@ -138,6 +184,43 @@ public class PlayerMovement : MonoBehaviour
         eAbility.SetActive(!b1);
         
     }
+
+    //Get & Set Player Weapons True
+    public void SetSwordHolding()
+    {
+        holdingSwordWeapon = true;
+    }
+
+    public void GetSwordHolding()
+    {
+        holdingSwordWeapon = true;
+    }
+
+    public void SetBowHolding()
+    {
+        holdingBowWeapon = true;
+    }
+
+    public void GetBowHolding()
+    {
+        holdingBowWeapon = true;
+    }
+
+    public void SetSpearHolding()
+    {
+        holdingSpearWeapon = true;
+    }
+
+    public void GetSpearHolding()
+    {
+        holdingSpearWeapon = true;
+    }
+
+    public bool GetBowHoldingVar()
+    {
+        return holdingBowWeapon;
+    }
+
     //move player
     private void Move()
     {
@@ -151,7 +234,6 @@ public class PlayerMovement : MonoBehaviour
         if (childAnimator != null) childAnimator.SetBool("IsRunning", isPlayerRunning);//sets Bool of Animator true, if player has any movement
         //childAnimator.SetBool("SwordRun", isPlayerRunning);//sets Bool of Animator true, if player has any movement
     }
-
 
     //flips sprite
     private void FlipSprite()

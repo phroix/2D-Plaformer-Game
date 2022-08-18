@@ -11,6 +11,7 @@ public class ChildNPCMerchantSystem : MonoBehaviour
     Pots myPots;
     PlayerCoinController myPlayerCoinController;
     PlayerBowCombat myPlayerBowCombat;
+    PlayerMovement myPlayerMovement;
 
 
     private int healthPotCost = 25;
@@ -40,6 +41,7 @@ public class ChildNPCMerchantSystem : MonoBehaviour
         myPots = FindObjectOfType<Pots>();
         myPlayerCoinController = FindObjectOfType<PlayerCoinController>();
         myPlayerBowCombat = FindObjectOfType<PlayerBowCombat>();
+        myPlayerMovement = FindObjectOfType<PlayerMovement>();
     }
 
     // Update is called once per frame
@@ -116,6 +118,7 @@ public class ChildNPCMerchantSystem : MonoBehaviour
 
     public void BuyArrow()
     {
+        if (!myPlayerMovement.GetBowHoldingVar()) return;
         if(myPlayerCoinController.GetCurrentCoins() >= arrowCost)
         {
             myPlayerBowCombat.IncreaseArrows();

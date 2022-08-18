@@ -9,7 +9,7 @@ public class PlayerBowCombat : MonoBehaviour
 {
     public GameObject arrow;
     public Text amountArrowsText;
-    public int currentAmountArrows = 0;
+    public static int currentAmountArrows = 0;
 
     public Transform shotpoint;
     public LayerMask enemyLayers;
@@ -106,7 +106,7 @@ public class PlayerBowCombat : MonoBehaviour
 
     private void NormalAttack()
     {
-        if (myParentNPCSystem.GetCanvasOverlayOpened() || myPotWheelMenuController.GetPotWheelSelected()) return;
+        if (myParentNPCSystem != null && (myParentNPCSystem.GetCanvasOverlayOpened() || myPotWheelMenuController.GetPotWheelSelected())) return;
 
         if (Time.time <= nextMove)
         {
@@ -244,7 +244,12 @@ public class PlayerBowCombat : MonoBehaviour
     {
         return cooldownETime;
     }
-
+    public void SetEnergyCost(int i, int b,int c)
+    {
+        qEnergCost = i;
+        eEnergCost = b;
+        currentAmountArrows = c;
+    }
     public void SetQCooldown(float q)
     {
         cooldownQTime = q;

@@ -95,7 +95,7 @@ public class PlayerSpearCombat : MonoBehaviour
 
     private void NormalAttack()
     {
-        if (myParentNPCSystem.GetCanvasOverlayOpened() || myPotWheelMenuController.GetPotWheelSelected()) return;
+        if (myParentNPCSystem != null && (myParentNPCSystem.GetCanvasOverlayOpened() || myPotWheelMenuController.GetPotWheelSelected())) return;
 
         if (Time.time <= nextMove)
         {
@@ -237,6 +237,12 @@ public class PlayerSpearCombat : MonoBehaviour
     public float GetECooldown()
     {
         return cooldownETime;
+    }
+
+    public void SetEnergyCost(int i, int b)
+    {
+        qEnergCost = i;
+        eEnergCost = b;
     }
 
     public void SetQCooldown(float q)

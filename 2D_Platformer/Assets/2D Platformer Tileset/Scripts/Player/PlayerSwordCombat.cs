@@ -90,7 +90,7 @@ public class PlayerSwordCombat : MonoBehaviour
     //normal attack player activate with left mouse klick
     private void NormalAttack()
     {
-        if (myParentNPCSystem.GetCanvasOverlayOpened() || myPotWheelMenuController.GetPotWheelSelected()) return;
+        if (myParentNPCSystem != null && (myParentNPCSystem.GetCanvasOverlayOpened() || myPotWheelMenuController.GetPotWheelSelected())) return;
 
         if (Time.time <= nextMove)
         {
@@ -241,6 +241,11 @@ public class PlayerSwordCombat : MonoBehaviour
         //Gizmos.DrawWireSphere(eAttackPoint.position, eAttackRange);
     }
 
+    public void SetEnergyCost(int i,int b)
+    {
+        qEnergyCost = i;
+        eEnergyCost = b;
+    }
     public float GetQCooldown()
     {
         return cooldownQTime;
