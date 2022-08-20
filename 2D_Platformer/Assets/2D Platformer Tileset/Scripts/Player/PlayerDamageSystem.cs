@@ -18,7 +18,7 @@ public class PlayerDamageSystem : MonoBehaviour
     public int spearCurrentDmg;
 
     PlayerHealthXpSystem myPlayerHealthXpSystem;
-    PlayerMovement myPlayerMovement;
+    PlayerWeapomCombat myPlayerWeapomCombat;
 
 
     // Start is called before the first frame update
@@ -30,7 +30,7 @@ public class PlayerDamageSystem : MonoBehaviour
 
     private void GetParentComponents()
     {
-        myPlayerMovement = GetComponent<PlayerMovement>();
+        myPlayerWeapomCombat = GetComponent<PlayerWeapomCombat>();
         myPlayerHealthXpSystem = GetComponent<PlayerHealthXpSystem>();
     }
 
@@ -105,17 +105,17 @@ public class PlayerDamageSystem : MonoBehaviour
 
     private void DisplayDamage()
     {
-        if (myPlayerMovement.GetCurrentWeapon().ToString() == "Sword (UnityEngine.GameObject)")
+        if (myPlayerWeapomCombat.GetCurrentWeapon().ToString() == "Sword (UnityEngine.GameObject)")
         {
             //Debug.Log("Sword active");
             dmgText.text = "DMG: " + swordCurrentDmg.ToString();
         }
-        else if (myPlayerMovement.GetCurrentWeapon().ToString() == "Bow (UnityEngine.GameObject)")
+        else if (myPlayerWeapomCombat.GetCurrentWeapon().ToString() == "Bow (UnityEngine.GameObject)")
         {
             //Debug.Log("Bow active");
             dmgText.text = "DMG: " + bowCurrentDmg.ToString();
         }
-        else if (myPlayerMovement.GetCurrentWeapon().ToString() == "Speer (UnityEngine.GameObject)")
+        else if (myPlayerWeapomCombat.GetCurrentWeapon().ToString() == "Speer (UnityEngine.GameObject)")
         {
             //Debug.Log("Bow active");
             dmgText.text = "DMG: " + spearCurrentDmg.ToString();

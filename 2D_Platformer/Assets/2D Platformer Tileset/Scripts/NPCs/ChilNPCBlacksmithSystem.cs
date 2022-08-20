@@ -34,7 +34,7 @@ public class ChilNPCBlacksmithSystem : MonoBehaviour
     {
         DisplayLevelText();
         //CehckForUpgrade();
-        Debug.Log("Current Lvl: " + myPlayerHealthXpSystem.GetCurrentLevel());
+        //Debug.Log("Current Lvl: " + myPlayerHealthXpSystem.GetCurrentLevel());
     }
     private void DisplayLevelText()
     {
@@ -79,7 +79,7 @@ public class ChilNPCBlacksmithSystem : MonoBehaviour
 
     public void SwordDmgUpgrade()
     {
-        if (CehckForSwordUpgrade())
+        if (CehckForSwordUpgrade() && FindObjectOfType<PlayerWeapomCombat>().GetSwordHoldingVar())
         {
             ++sowrdUpgradeClicked;
             myPlayerDamageSystem.IncreaseSwordDmgUpgrade(3);
@@ -89,7 +89,7 @@ public class ChilNPCBlacksmithSystem : MonoBehaviour
 
     public void BowDmgUpgrade()
     {
-        if (CehckForBowUpgrade())
+        if (CehckForBowUpgrade() && FindObjectOfType<PlayerWeapomCombat>().GetBowHoldingVar())
         {
             ++bowUpgradeClicked;
             myPlayerDamageSystem.IncreaseBowDmgUpgrade(3);

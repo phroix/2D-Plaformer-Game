@@ -36,7 +36,7 @@ public class StorySystem : MonoBehaviour
         {
             IncreaseCurrentKillQuestCounter();
         }
-        Debug.Log("currentQuestCompleted: " + currentQuestCompleted);
+        //Debug.Log("currentQuestCompleted: " + currentQuestCompleted);
         QuestsFunctions();
     }
 

@@ -24,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
     Collider2D myFeetCollider;
     CapsuleCollider2D myBodyCollider;
     SpriteRenderer mySpriteRenderer;
+    PlayerWeapomCombat myPlayerWeapomCombat;
 
     //Child component
     Animator childAnimator;
@@ -31,14 +32,6 @@ public class PlayerMovement : MonoBehaviour
     //Weapons
     GameObject currentWeapon;
     GameObject defaultWeapon;
-    GameObject swordWeapon;
-    GameObject bowWeapon;
-    GameObject spearWeapon;
-
-    //Weapons holding
-    bool holdingSwordWeapon = false;
-    bool holdingBowWeapon = false;
-    bool holdingSpearWeapon = false;
 
     //falling & jumping cache
     float fallingThreshold = -.1f;
@@ -49,9 +42,6 @@ public class PlayerMovement : MonoBehaviour
     bool bodyIsTouchingForeground;
     bool feetIsTouchingPlatform;
     bool bodyIsTouchingPlatform;
-
-    public GameObject qAbility;
-    public GameObject eAbility;
 
     private void Awake()
     {
@@ -72,55 +62,44 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         activeMoveSpeed = moveSpeed;
-        GetChildren();
-        SetWeaponActive(true, false, false,false, defaultWeapon);
-        //currentWeapon = defaultWeapon;
         GetComponents();
-        CheckForScene();
-
     }
     // Update is called once per frame
     void Update()
     {
-        SetCurrentWeapon();
         Move();
         FlipSprite();
         Jump();
         DashRoll();
         IsTouching();
-    }
-    private void CheckForScene()
-    {
-        var currentScene = SceneManager.GetActiveScene();
-        if (currentScene.name == "TutorialScene")
-        {
-            holdingSwordWeapon = true;
-            holdingBowWeapon = true;
-            holdingSpearWeapon = true;
-            swordWeapon.GetComponent<PlayerSwordCombat>().SetEnergyCost(0, 0);
-            bowWeapon.GetComponent<PlayerBowCombat>().SetEnergyCost(0, 0,100);
-            spearWeapon.GetComponent<PlayerSpearCombat>().SetEnergyCost(0, 0);
-
-        }
-        else
-        {
-            holdingSwordWeapon = false;
-            holdingBowWeapon = false;
-            holdingSpearWeapon = false;
-            swordWeapon.GetComponent<PlayerSwordCombat>().SetEnergyCost(30, 20);
-            bowWeapon.GetComponent<PlayerBowCombat>().SetEnergyCost(30, 20, 0);
-            spearWeapon.GetComponent<PlayerSwordCombat>().SetEnergyCost(30, 20);
-        }
+        if (childAnimator != null) childAnimator = currentWeapon.GetComponent<Animator>();
 
     }
-    //Get Children of this GameObject 
-    private void GetChildren()
-    {
-        defaultWeapon = gameObject.transform.GetChild(0).gameObject;
-        swordWeapon = gameObject.transform.GetChild(1).gameObject;
-        bowWeapon = gameObject.transform.GetChild(2).gameObject;
-        spearWeapon = gameObject.transform.GetChild(3).gameObject;
-    }
+    //private void CheckForScene()
+    //{
+    //    var currentScene = SceneManager.GetActiveScene();
+    //    if (currentScene.name == "TutorialScene")
+    //    {
+    //        holdingSwordWeapon = true;
+    //        holdingBowWeapon = true;
+    //        holdingSpearWeapon = true;
+    //        swordWeapon.GetComponent<PlayerSwordCombat>().SetEnergyCost(0, 0);
+    //        bowWeapon.GetComponent<PlayerBowCombat>().SetEnergyCost(0, 0,100);
+    //        spearWeapon.GetComponent<PlayerSpearCombat>().SetEnergyCost(0, 0);
+
+    //    }
+    //    else
+    //    {
+    //        holdingSwordWeapon = false;
+    //        holdingBowWeapon = false;
+    //        holdingSpearWeapon = false;
+    //        swordWeapon.GetComponent<PlayerSwordCombat>().SetEnergyCost(30, 20);
+    //        bowWeapon.GetComponent<PlayerBowCombat>().SetEnergyCost(30, 20, 0);
+    //        spearWeapon.GetComponent<PlayerSwordCombat>().SetEnergyCost(30, 20);
+    //    }
+
+    //}
+
 
     //Get Components of this GameObject/child
     private void GetComponents()
@@ -129,99 +108,18 @@ public class PlayerMovement : MonoBehaviour
         myFeetCollider = gameObject.GetComponent<BoxCollider2D>();
         myBodyCollider = gameObject.GetComponent<CapsuleCollider2D>();
         mySpriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        myPlayerWeapomCombat = gameObject.GetComponent<PlayerWeapomCombat>();
         mySpriteRenderer.sprite = null;
-        childAnimator = currentWeapon.GetComponent<Animator>();
+
+
+        defaultWeapon = gameObject.transform.GetChild(0).gameObject;
+        currentWeapon = defaultWeapon;
+        childAnimator = currentWeapon.gameObject.GetComponent<Animator>();
+
+
     }
 
-    //Gets current equipped weapon
-    private void SetCurrentWeapon()
-    {
-        
-        if (Input.GetKeyDown(KeyCode.Alpha1))//Check if 1 is pressed
-        {
-            SetWeaponActive(true, false, false, false, defaultWeapon);
-            
-        }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2) && holdingSwordWeapon)//Check if 2 is pressed
-        {
-            SetWeaponActive(false, true, false, false, swordWeapon);
-            
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha3) && holdingBowWeapon)//Check if 3 is pressed
-        {
-            SetWeaponActive(false, false, true, false, bowWeapon);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha4) && holdingSpearWeapon)//Check if 3 is pressed
-        {
-            SetWeaponActive(false, false, false,true, spearWeapon);
-        }
-
-        if (childAnimator != null) 
-        {
-            childAnimator = currentWeapon.GetComponent<Animator>(); //gets component of child Animator
-            //Debug.Log("!=null");
-
-        }
-    }
-
-    public GameObject GetCurrentWeapon()
-    {
-        return currentWeapon;
-    }
-
-    private void SetWeaponActive(bool b1, bool b2, bool b3, bool b4, GameObject g)
-    {
-        defaultWeapon.SetActive(b1);
-        swordWeapon.SetActive(b2);
-        bowWeapon.SetActive(b3);
-        spearWeapon.SetActive(b4);
-        if(g!=null) currentWeapon = g;
-        
-        qAbility.SetActive(!b1);
-        eAbility.SetActive(!b1);
-        
-    }
-
-    //Get & Set Player Weapons True
-    public void SetSwordHolding()
-    {
-        holdingSwordWeapon = true;
-    }
-
-    public void GetSwordHolding()
-    {
-        holdingSwordWeapon = true;
-    }
-
-    public void SetBowHolding()
-    {
-        holdingBowWeapon = true;
-    }
-
-    public void GetBowHolding()
-    {
-        holdingBowWeapon = true;
-    }
-
-    public void SetSpearHolding()
-    {
-        holdingSpearWeapon = true;
-    }
-
-    public void GetSpearHolding()
-    {
-        holdingSpearWeapon = true;
-    }
-
-    public bool GetBowHoldingVar()
-    {
-        return holdingBowWeapon;
-    }
-
-    //move player
     private void Move()
     {
         float control = Input.GetAxis("Horizontal");//get input manager axis
@@ -267,14 +165,14 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetButtonDown("Jump"))//Get Jump Button
             {
-                childAnimator.SetBool("IsJumping", true);//set Bool of Animator
+                if (childAnimator != null) childAnimator.SetBool("IsJumping", true);//set Bool of Animator
                 myRigidbody2D.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
             }
         }
         if (!CheckIfJumping())
         {
             Falling();
-            childAnimator.SetBool("IsJumping", false);//set Bool of Animator
+            if (childAnimator!= null) childAnimator.SetBool("IsJumping", false);//set Bool of Animator
         }
     }
 
@@ -294,7 +192,7 @@ public class PlayerMovement : MonoBehaviour
     //falling player
     private void Falling()
     {
-        childAnimator.SetBool("IsFalling", CheckIfFalling());
+        if (childAnimator != null) childAnimator.SetBool("IsFalling", CheckIfFalling());
     }
 
     //touching ground player
@@ -313,7 +211,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (dashCoolCounter <= 0 && dashCounter <= 0)
             {
-                childAnimator.SetTrigger("Dash");
+                if (childAnimator != null) childAnimator.SetTrigger("Dash");
                 activeMoveSpeed = dashSpeed;
                 dashCounter = dashLength;
             }
@@ -334,5 +232,10 @@ public class PlayerMovement : MonoBehaviour
         {
             dashCoolCounter -= Time.deltaTime;
         }
+    }
+
+    public void SetCurrentWeapon(GameObject g)
+    {
+        currentWeapon = g;
     }
 }
