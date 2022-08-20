@@ -238,6 +238,7 @@ GameObject:
   - component: {fileID: 1656670494321581321}
   - component: {fileID: 1656670494321581320}
   - component: {fileID: 1656670494321581323}
+  - component: {fileID: 2065716088667017859}
   - component: {fileID: 1656670494321581364}
   - component: {fileID: 1656670494321581365}
   - component: {fileID: 1656670494321581362}
@@ -382,6 +383,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5460396, y: 0.03984964}
   m_EdgeRadius: 0
+--- !u!114 &2065716088667017859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1656670494321581322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdbb82948a9369d4a9f352293f6ba35d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  qAbility: {fileID: 1656670495720697390}
+  eAbility: {fileID: 1656670494456817662}
 --- !u!114 &1656670494321581364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1238,7 +1253,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1656670494540497665
 Transform:
   m_ObjectHideFlags: 0
@@ -4489,7 +4504,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1656670495377262874
 Transform:
   m_ObjectHideFlags: 0
@@ -6578,7 +6593,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arrow: {fileID: 4562387478643710899, guid: 0d464e8a2d85054478df8d9b07dda516, type: 3}
   amountArrowsText: {fileID: 1656670494527994513}
-  currentAmountArrows: 0
   shotpoint: {fileID: 1656670495606660480}
   enemyLayers:
     serializedVersion: 2

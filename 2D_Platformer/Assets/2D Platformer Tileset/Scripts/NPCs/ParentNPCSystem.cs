@@ -21,7 +21,7 @@ public class ParentNPCSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("ParentNPCSystem canvasOverlayOpened: " + canvasOverlayOpened);
+        //Debug.Log("ParentNPCSystem canvasOverlayOpened: " + canvasOverlayOpened);
         OpenCanvasOverlay();
     }
 

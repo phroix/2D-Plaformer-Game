@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerWeapomCombat : MonoBehaviour
 {
+    PlayerMovement myPlayerMovement;
+
     public GameObject qAbility;
     public GameObject eAbility;
 
@@ -29,12 +31,18 @@ public class PlayerWeapomCombat : MonoBehaviour
         GetChildren();
         SetWeaponActive(true, false, false, false, defaultWeapon);
         currentWeapon = defaultWeapon;
+        if (myPlayerMovement != null) myPlayerMovement.SetCurrentWeapon(currentWeapon);
+        myPlayerMovement = GetComponent<PlayerMovement>();
     }
 
     // Update is called once per frame
     void Update()
     {
         SetCurrentWeapon();
+        if (myPlayerMovement != null) myPlayerMovement.SetCurrentWeapon(currentWeapon);
+        Debug.Log("currentWeapon2: " + currentWeapon.name);
+
+
     }
 
     //Get Children of this GameObject 
@@ -72,12 +80,11 @@ public class PlayerWeapomCombat : MonoBehaviour
             SetWeaponActive(false, false, false, true, spearWeapon);
         }
 
-        if (childAnimator != null)
-        {
-            childAnimator = currentWeapon.GetComponent<Animator>(); //gets component of child Animator
+
+           if(childAnimator!=null) childAnimator = currentWeapon.GetComponent<Animator>(); //gets component of child Animator
             //Debug.Log("!=null");
 
-        }
+      
     }
 
     public GameObject GetCurrentWeapon()
@@ -127,5 +134,45 @@ public class PlayerWeapomCombat : MonoBehaviour
     {
         holdingSpearWeapon = true;
     }
+
+    public bool GetBowHoldingVar()
+    {
+        return holdingBowWeapon;
+    }
+
+    public bool GetSwordHoldingVar()
+    {
+        return holdingSwordWeapon;
+    }
+
+    public GameObject GetChildAnimator()
+    {
+        return currentWeapon;
+    }
+
+    //private void CheckForScene()
+    //{
+    //    var currentScene = SceneManager.GetActiveScene();
+    //    if (currentScene.name == "TutorialScene")
+    //    {
+    //        holdingSwordWeapon = true;
+    //        holdingBowWeapon = true;
+    //        holdingSpearWeapon = true;
+    //        swordWeapon.GetComponent<PlayerSwordCombat>().SetEnergyCost(0, 0);
+    //        bowWeapon.GetComponent<PlayerBowCombat>().SetEnergyCost(0, 0,100);
+    //        spearWeapon.GetComponent<PlayerSpearCombat>().SetEnergyCost(0, 0);
+
+    //    }
+    //    else
+    //    {
+    //        holdingSwordWeapon = false;
+    //        holdingBowWeapon = false;
+    //        holdingSpearWeapon = false;
+    //        swordWeapon.GetComponent<PlayerSwordCombat>().SetEnergyCost(30, 20);
+    //        bowWeapon.GetComponent<PlayerBowCombat>().SetEnergyCost(30, 20, 0);
+    //        spearWeapon.GetComponent<PlayerSwordCombat>().SetEnergyCost(30, 20);
+    //    }
+
+    //}
 
 }
