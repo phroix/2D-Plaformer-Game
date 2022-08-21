@@ -19,6 +19,9 @@ public class ChilNPCBlacksmithSystem : MonoBehaviour
     PlayerHealthXpSystem myPlayerHealthXpSystem;
     PlayerDamageSystem myPlayerDamageSystem;
 
+    bool holdingSword = false;
+    bool holdingBow = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -26,13 +29,15 @@ public class ChilNPCBlacksmithSystem : MonoBehaviour
         myPlayerHealthXpSystem = FindObjectOfType<PlayerHealthXpSystem>();
         myPlayerDamageSystem = FindObjectOfType<PlayerDamageSystem>();
         interactText.text = "Weapon Upgrade";
-        
+        GetWeaponHoldings();
     }
+
 
     // Update is called once per frame
     void Update()
     {
         DisplayLevelText();
+        GetWeaponHoldings();
         //CehckForUpgrade();
         //Debug.Log("Current Lvl: " + myPlayerHealthXpSystem.GetCurrentLevel());
     }
@@ -43,6 +48,11 @@ public class ChilNPCBlacksmithSystem : MonoBehaviour
 
         SetActiveBowSword();
 
+    }
+    private void GetWeaponHoldings()
+    {
+        holdingSword = FindObjectOfType<PlayerWeapomCombat>().GetSwordHoldingVar();
+        holdingBow = FindObjectOfType<PlayerWeapomCombat>().GetBowHoldingVar();
     }
 
     private void SetActiveBowSword()
@@ -55,7 +65,7 @@ public class ChilNPCBlacksmithSystem : MonoBehaviour
 
     public bool CehckForSwordUpgrade()
     {
-        if(myPlayerHealthXpSystem.GetCurrentLevel() > sowrdUpgradeClicked)
+        if(myPlayerHealthXpSystem.GetCurrentLevel() > sowrdUpgradeClicked && holdingSword)
         {
             return true;
         }
@@ -67,7 +77,7 @@ public class ChilNPCBlacksmithSystem : MonoBehaviour
 
     public bool CehckForBowUpgrade()
     {
-        if (myPlayerHealthXpSystem.GetCurrentLevel() > bowUpgradeClicked)
+        if (myPlayerHealthXpSystem.GetCurrentLevel() > bowUpgradeClicked && holdingBow)
         {
             return true;
         }
@@ -79,7 +89,7 @@ public class ChilNPCBlacksmithSystem : MonoBehaviour
 
     public void SwordDmgUpgrade()
     {
-        if (CehckForSwordUpgrade() && FindObjectOfType<PlayerWeapomCombat>().GetSwordHoldingVar())
+        if (CehckForSwordUpgrade() && holdingSword)
         {
             ++sowrdUpgradeClicked;
             myPlayerDamageSystem.IncreaseSwordDmgUpgrade(3);
@@ -89,7 +99,7 @@ public class ChilNPCBlacksmithSystem : MonoBehaviour
 
     public void BowDmgUpgrade()
     {
-        if (CehckForBowUpgrade() && FindObjectOfType<PlayerWeapomCombat>().GetBowHoldingVar())
+        if (CehckForBowUpgrade() && holdingBow)
         {
             ++bowUpgradeClicked;
             myPlayerDamageSystem.IncreaseBowDmgUpgrade(3);
