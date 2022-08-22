@@ -39,6 +39,8 @@ public class PlayerSpearCombat : MonoBehaviour
     float nextEAttackTime = 0f;
     bool isECooldown = false;
 
+    bool anyCanvasOpened = false;
+
     //Gameobject Components
     Animator myAnimator;
 
@@ -95,7 +97,8 @@ public class PlayerSpearCombat : MonoBehaviour
 
     private void NormalAttack()
     {
-        if (myParentNPCSystem != null && (myParentNPCSystem.GetCanvasOverlayOpened() || myPotWheelMenuController.GetPotWheelSelected())) return;
+        if (anyCanvasOpened) return;
+        //if (myParentNPCSystem != null && (myParentNPCSystem.GetCanvasOverlayOpened() || myPotWheelMenuController.GetPotWheelSelected())) return;
 
         if (Time.time <= nextMove)
         {
@@ -267,5 +270,10 @@ public class PlayerSpearCombat : MonoBehaviour
     public void IncreaseEATK(int i)
     {
         eAttackDamage += i;
+    }
+
+    public void SetAnyCanvasOpened(bool b)
+    {
+        anyCanvasOpened = b;
     }
 }
