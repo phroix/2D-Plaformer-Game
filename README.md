@@ -1,2 +1,2 @@
 # 2D-Plaformer-Game
-2D-Platfomer Game with Unity/C#
+A 2D Platformer Game which is not completely finished. There are several levels which I created using the Tilemap of Unity. The Player moves with the WASD keys. He uses normal attacks with the Mousebutton and dashes with the SHIFT key. The Player can collect coins and with these coins he can buy different items from NPCs like a sword,a bow, arrows or different pots. The Player can switch between his weapons. With each weapon come two abilities. They can be activated by pressing Q and E key. Each ability costs energy and has cooldown. Also, pots like Heal pots, Energy pots, Cooldown pots and Damage Boost pots can be bought from NPCs.
