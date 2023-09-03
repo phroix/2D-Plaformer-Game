@@ -40,7 +40,7 @@ public class PlayerWeapomCombat : MonoBehaviour
     {
         SetCurrentWeapon();
         if (myPlayerMovement != null) myPlayerMovement.SetCurrentWeapon(currentWeapon);
-        Debug.Log("currentWeapon2: " + currentWeapon.name);
+        //Debug.Log("currentWeapon2: " + currentWeapon.name);
 
 
     }

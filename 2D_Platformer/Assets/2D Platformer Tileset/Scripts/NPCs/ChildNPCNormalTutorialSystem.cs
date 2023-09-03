@@ -35,8 +35,8 @@ public class ChildNPCNormalTutorialSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("hitWayPoints: " + hitWayPoints);
-        Debug.Log("overlayStages: " + overlayStages[hitWayPoints].name);
+        //Debug.Log("hitWayPoints: " + hitWayPoints);
+        //Debug.Log("overlayStages: " + overlayStages[hitWayPoints].name);
         MoveToWayPoints();
         FlipSprite();
         OpenCanvasOverlay();

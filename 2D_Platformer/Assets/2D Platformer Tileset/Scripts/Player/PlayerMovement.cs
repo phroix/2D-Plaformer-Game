@@ -238,4 +238,9 @@ public class PlayerMovement : MonoBehaviour
     {
         currentWeapon = g;
     }
+
+    public void TeleportPlayer(Vector3 pos1)
+    {
+        transform.position = pos1;
+    }
 }

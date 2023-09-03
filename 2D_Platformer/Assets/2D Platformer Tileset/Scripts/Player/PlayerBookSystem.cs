@@ -13,7 +13,7 @@ public class PlayerBookSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log(gameObject.transform.childCount);
+        //Debug.Log(gameObject.transform.childCount);
         book.SetActive(false);
         //for(int i = 0; i < book.transform.childCount; i++)
         //{
